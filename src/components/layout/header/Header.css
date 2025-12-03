@@ -1,0 +1,93 @@
+/* Base */
+.header {
+  width: 100%;
+  height: 1090px;
+  background: url("https://payhip.com/cdn-cgi/image/format=auto,width=1500/https://pe56d.s3.amazonaws.com/o_1ij6918d9nm97g3tep15ti1a9847.png")
+    center/cover no-repeat;
+  padding: 40px 60px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+/* Overlay wrapper */
+.header-overlay {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 20px 40px;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 12px;
+}
+
+/* Search Bar */
+.header-search {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 55px;
+  z-index: 5;
+}
+
+/* Input */
+.header-search input {
+  width: 100%;
+  height: 100%;
+  padding: 10px 16px;
+  background: rgba(216, 214, 214, 0.253);
+  backdrop-filter: blur(8px);
+  border: 2px solid #dcdcdc;
+  border-radius: 25px;
+  color: #000;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.header-search input::placeholder {
+  color: transparent;
+}
+
+.header-search input:focus + .placeholder-bubble {
+  opacity: 0;
+  transform: translate(-50%, -45%);
+}
+
+.header-search input:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: #fff;
+  color: #000;
+  transition: 0.25s ease;
+}
+
+/* Bubble Placeholder */
+.placeholder-bubble {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  pointer-events: none;
+  font-size: 14px;
+  color: #000000;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Logo */
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo img {
+  width: 60px;
+}
+
+.header-logo h1 {
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}

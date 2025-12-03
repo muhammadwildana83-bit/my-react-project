@@ -1,0 +1,102 @@
+.marquee-section {
+  background: #ffffff;
+  padding: 40px 0;
+  overflow: hidden;
+  margin-top: 100px;
+}
+
+.marquee-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.marquee-content {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+  white-space: nowrap;
+  transform: translateZ(0); 
+}
+
+/* ini salah satu kunci biar gap nya tetap sama */
+.marquee-item {
+  position: relative;
+  width: 255px;
+  height: 180px;
+  flex-shrink: 0;
+  cursor: pointer;
+  text-align: center;
+  transform-style: preserve-3d;
+  margin-right: 60px;
+}
+
+.marquee-icon {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transform: translateY(-20px);
+}
+
+.marquee-label {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000000;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  opacity: 0.9;
+  z-index: 4;
+  white-space: nowrap;
+}
+
+/* layer ganda biar galupa besok kalo ada project */
+.marquee-item::before,
+.marquee-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  z-index: 1;
+  transition: all 0.5s ease;
+}
+
+.marquee-item::before {
+  background: rgba(68, 68, 70, 0.507);
+  transform: translate(7px, -27px);
+}
+
+.marquee-item::after {
+  background: rgba(0, 0, 0, 0.164);
+  transform: translate(12px, -35px);
+}
+
+.marquee-item:hover::before {
+  transform: translate(8px, 8px);
+  opacity: 0.5;
+}
+
+.marquee-item:hover::after {
+  transform: translate(14px, 14px);
+  opacity: 0.35;
+}
+
+.marquee-item:hover .marquee-icon {
+  transform: translateY(-4px) scale(1.02);
+  transition: transform 0.4s ease;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+/* Animasi marquee mulus */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* ini untuk scroll setengah dari animasi nya */
+}

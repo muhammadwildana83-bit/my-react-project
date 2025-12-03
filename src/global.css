@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #ffffff;
+  color: #222;
+}
+
+/* Untuk semua ikon Font Awesome */
+.fa,
+.fas, /* solid */
+.far, /* regular */
+.fab  /* brands */
+{
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900; /* solid */
+  font-style: normal;
+  display: inline-block;
+  text-rendering: auto;
+  line-height: 1;
+}

@@ -1,0 +1,19 @@
+/* Navigation */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.header-nav a {
+  margin-left: 90px;
+  text-decoration: none;
+  color: #d2d2d2;
+  font-weight: 600;
+  transition: 0.25s;
+  font-size: 20px;
+}
+
+.header-nav a:hover {
+  color: #fff;
+}
