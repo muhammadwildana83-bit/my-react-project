@@ -6,21 +6,20 @@ import Marquee from "../components/home/marquee/Marquee";
 import Footer from "../components/layout/footer/Footer";
 import productsData from "../data/products";
 
-export default function Home({ cartCount, setCartCount, searchTerm, setSearchTerm }) {
+export default function Home({ searchTerm = "", setSearchTerm }) {
   const [products] = useState(productsData);
   const [notif, setNotif] = useState({ show: false, message: "" });
 
   return (
     <>
       <Header
-        cartCount={cartCount}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
 
       <ProductSection
         products={products}
-        searchTerm={searchTerm}
+        searchTerm={searchTerm || ""}
         notif={notif}
         setNotif={setNotif}
       />

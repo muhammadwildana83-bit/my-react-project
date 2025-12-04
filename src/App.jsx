@@ -15,8 +15,29 @@ import { CartProvider } from "./context/CartContext";
 
 import Cart from "./pages/Cart";
 
+const routes = [
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/about",
+    element: <About />,
+  },
+  {
+    path: "/product/:id",
+    element: <ProductDetail />,
+  },
+  {
+    path: "/cart",
+    element: <Cart />,
+  },
+  // Tambahkan route lain di sini jika perlu
+];
+
 function AppWrapper() {
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -25,38 +46,11 @@ function AppWrapper() {
     }
   }, [navigate]);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  // Hapus cartCount, gunakan dari context
-
   return (
     <Routes>
-      {/* HOME */}
-      <Route
-        path="/"
-        element={
-          <Home
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-          />
-        }
-      />
-
-      {/* ABOUT */}
-      <Route
-        path="/about"
-        element={<About />}
-      />
-
-      {/* PRODUCT DETAIL */}
-      <Route
-        path="/product/:id"
-        element={<ProductDetail />}
-      />
-
-        {/* CART */}
-      <Route path="/cart" element={<Cart />} />
-
-      {/* REDIRECT UNKNOWN ROUTES */}
+      {routes.map(({ path, element }) => (
+        <Route key={path} path={path} element={element} />
+      ))}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
