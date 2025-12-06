@@ -3,19 +3,19 @@ import "./Marquee.css";
 function Marquee() {
   const marqueeItems = [
     {
-      img: "https://pe56d.s3.amazonaws.com/o_1ij6918d9nm97g3tep15ti1a9847.png",
+      img: "/img/chigga 1.png",
       label: "Page 1",
     },
     {
-      img: "https://pe56d.s3.amazonaws.com/o_1ij6918d9nm97g3tep15ti1a9847.png",
+      img: "/img/1-Tomato Bold.png",
       label: "Page 2",
     },
     {
-      img: "https://pe56d.s3.amazonaws.com/o_1ij6918d9nm97g3tep15ti1a9847.png",
+      img: "/img/arcov 9.png",
       label: "Page 3",
     },
     {
-      img: "https://pe56d.s3.amazonaws.com/o_1ij6918d9nm97g3tep15ti1a9847.png",
+      img: "/img/1.png",
       label: "Page 4",
     },
     {

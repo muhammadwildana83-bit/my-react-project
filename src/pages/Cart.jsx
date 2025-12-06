@@ -18,7 +18,7 @@ export default function Cart() {
           <ul style={{ listStyle: "none", padding: 0 }}>
             {cartItems.map((item) => (
               <li key={item.id} style={{ display: "flex", alignItems: "center", marginBottom: 18 }}>
-                <img src={item.img} alt={item.name} style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 8, marginRight: 18 }} />
+                <img src={item.mainImg} alt={item.name} style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 8, marginRight: 18 }} />
                 <div style={{ flex: 1 }}>
                   <h4 style={{ margin: 0 }}>{item.name}</h4>
                   <p style={{ margin: 0 }}>Qty: {item.qty}</p>

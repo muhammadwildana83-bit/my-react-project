@@ -12,7 +12,7 @@ export default function ProductCard({
     <div className="product-card">
       <div className="image-wrapper">
         <Link to={`/product/${product.id}`} className="product-link">
-          <img src={product.img} alt={product.name} />
+         <img src={product.mainImg || product.img || '/img/default.png'} alt={product.name} />
         </Link>
 
         <div className="hover-icons">
