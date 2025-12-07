@@ -7,7 +7,7 @@ function Marquee() {
       label: "Page 1",
     },
     {
-      img: "/img/1-Tomato Bold.png",
+      img: "/img/1-Tomato-Bold.png",
       label: "Page 2",
     },
     {

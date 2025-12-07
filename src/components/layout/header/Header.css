@@ -18,6 +18,7 @@
   padding: 20px 40px;
   background: rgba(0, 0, 0, 0.55);
   border-radius: 12px;
+  z-index: 1;
 }
 
 /* Search Bar */
@@ -42,7 +43,7 @@
   border-radius: 25px;
   color: #000;
   font-size: 15px;
-  cursor: pointer;
+  cursor: text;
 }
 
 .header-search input::placeholder {
