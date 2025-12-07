@@ -1,0 +1,15 @@
+.product-name {
+  font-size: 4rem;
+  color: var(--accent-gold);
+}
+
+.gold-separator {
+  height: 1px;
+  background: var(--accent-gold);
+  margin: 20px 0;
+}
+
+.price {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,44 @@
+/* Lisensi Options */
+.license-options-container {
+  margin-bottom: 30px;
+}
+
+.license-type-heading {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-light);
+  margin-bottom: 15px;
+}
+
+.required-star {
+  color: red;
+  margin-right: 5px;
+}
+
+.license-option-item {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.license-option-item input[type="radio"] {
+  /* Gaya untuk radio button */
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--radio-border);
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.license-option-item input[type="radio"]:checked {
+  border-color: var(--accent-gold);
+  background-color: var(--accent-gold);
+  box-shadow: 0 0 0 2px var(--bg-dark); /* Border luar gelap */
+}

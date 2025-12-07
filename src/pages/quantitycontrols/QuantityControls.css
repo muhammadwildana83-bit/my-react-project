@@ -1,0 +1,49 @@
+/* Cart Controls */
+.cart-controls-aksaratiga {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Quantity Control */
+.quantity-control-aksaratiga {
+  display: flex;
+  border: 1px solid var(--text-light);
+  border-radius: 4px;
+  overflow: hidden;
+  height: 40px; /* Tinggi disesuaikan dengan tombol */
+}
+
+.qty-btn-aksaratiga {
+  background: transparent;
+  color: var(--text-light);
+  border: none;
+  padding: 0 12px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  transition: background 0.2s;
+  height: 100%;
+}
+
+.qty-btn-aksaratiga:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.qty-input-aksaratiga{
+  width: 30px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: var(--text-light);
+  font-size: 16px;
+  padding: 0;
+  line-height: 40px;
+}
+
+/* Hapus styling bawaan yang tidak diperlukan */
+.product-right .description,
+.product-right .price {
+  /* Hapus atau atur ulang properti yang tidak sesuai */
+  margin-bottom: 0;
+}

@@ -1,0 +1,26 @@
+.main-img-container {
+  position: relative;
+  background-color: var(--image-bg-orange); /* Latar Belakang Oranye */
+  padding: 10px; /* Padding di sekitar gambar */
+  border-radius: 4px;
+  box-shadow: none; /* Hapus shadow bawaan */
+}
+
+.main-img {
+  width: 100%;
+  /* Hapus border-radius */
+  border-radius: 0;
+  object-fit: contain; /* Gunakan contain agar gambar terlihat penuh di dalam kotak oranye */
+  box-shadow: none;
+  transition: none; /* Hapus transisi hover zoom */
+}
+
+.main-img:hover {
+  transform: none;
+}
+
+/* Skeleton Loader - dipertahankan gayanya */
+.img-skeleton-loader {
+  height: 100%;
+  min-height: 350px;
+}

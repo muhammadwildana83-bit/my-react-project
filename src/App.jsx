@@ -10,7 +10,7 @@ import {
 
 import Home from "./pages/Home";
 import About from "./components/home/about/About";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetail from "./pages/productdetail/ProductDetail";
 import { CartProvider } from "./context/CartContext";
 
 import Cart from "./pages/Cart";

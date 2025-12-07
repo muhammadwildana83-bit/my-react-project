@@ -1,0 +1,51 @@
+/* ============================
+    GLOBAL STYLES FOR HAYATICA UI
+============================ */
+:root {
+  --bg-dark: #1e1e1e; /* Latar Belakang Gelap (Hampir Hitam) */
+  --text-light: #f0f0f0; /* Teks Utama Putih/Krem */
+  --accent-gold: #ffffff; /* Warna Garis dan Aksen Emas/Coklat */
+  --btn-bg: #ffffff; /* Warna Tombol Coklat/Gold */
+  --btn-text: #1e1e1e; /* Teks Tombol Gelap */
+  --radio-border: #f0f0f0;
+}
+
+/* Terapkan Latar Belakang Gelap ke Seluruh Kontainer */
+body {
+  background-color: var(--bg-dark); /* Pastikan body juga gelap */
+}
+
+/* Container utama */
+.product-detail {
+  max-width: 1400px; /* Lebar Disesuaikan */
+  margin: 4rem auto;
+  padding: 40px; /* Padding Disesuaikan */
+  background: var(--bg-dark); /* Hapus blur, ganti background hitam */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-radius: 0; /* Hapus border radius besar */
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; /* Kolom Kiri lebih lebar */
+  gap: 60px; /* Gap lebih besar */
+  font-family: "Inter", sans-serif; /* Ganti dengan font yang Anda pilih jika berbeda */
+  position: relative;
+  color: var(--text-light); /* Teks terang */
+  -webkit-animation: fadeIn 0.5s ease both;
+  animation: fadeIn 0.5s ease both;
+}
+
+/* HEADER BACK BUTTON (Disembunyikan) */
+.detail-header {
+  /* Dipertahankan untuk struktur, tapi back-btn disembunyikan */
+  display: none;
+}
+
+.back-btn {
+  /* Jika tetap ingin dipertahankan namun disembunyikan */
+  display: none;
+}
+
+/* FLOATING CART (Dipertahankan di JSX, tapi disembunyikan jika tidak ada di foto) */
+.floating-cart {
+  display: none; /* Sembunyikan floating cart */
+}

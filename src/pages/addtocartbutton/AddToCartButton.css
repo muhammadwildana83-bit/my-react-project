@@ -1,0 +1,33 @@
+/* ADD TO CART BUTTON */
+.add-to-cart-aksaratiga {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 8px 25px; /* Padding disesuaikan */
+  border-radius: 4px; /* Bentuk kotak */
+  font-weight: bold; /* Bold */
+  font-size: 16px;
+  box-shadow: none; /* Hapus shadow */
+  transition: background 0.2s;
+  text-transform: uppercase;
+  height: 40px;
+}
+
+.add-to-cart-aksaratiga:hover {
+  background: var(--accent-gold);
+  transform: none; /* Hapus transisi hover */
+  box-shadow: none;
+}
+
+/* ============================
+    RESPONSIVE
+============================ */
+@media (max-width: 900px) {
+  .product-detail {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 30px;
+  }
+  .product-name-hayatica {
+    font-size: 3rem;
+  }
+}
