@@ -13,7 +13,7 @@
 .marquee-content {
   display: flex;
   width: max-content;
-  animation: marquee 35s linear infinite;
+  animation: marquee 40s linear infinite;
   white-space: nowrap;
   transform: translateZ(0); 
 }

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./About.css";
+import Footer from "../../layout/footer/Footer";  
 
 function About() {
 // Efek reveal hanya dijalankan sekali setelah render
@@ -81,6 +82,7 @@ return ( <main className="about-page">
       </div>
     </div>
   </section>
+   <Footer/>
 </main>
 
 );

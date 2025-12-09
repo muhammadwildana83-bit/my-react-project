@@ -20,7 +20,7 @@ function Header({ searchTerm, setSearchTerm }) {
         </div>
 
         {/* Navigation */}
-        <Nav />   {/* ⬅️ Nav dipisah, tinggal panggil */}
+        <Nav /> 
       </div>
 
       {/* GLOBAL SEARCH BAR */}
@@ -33,7 +33,7 @@ function Header({ searchTerm, setSearchTerm }) {
         <span className="placeholder-bubble">Search products…</span>
       </div>
     </header>
-  );
+  ); 
 }
 
 export default Header;

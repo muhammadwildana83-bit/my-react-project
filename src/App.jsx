@@ -11,32 +11,13 @@ import {
 import Home from "./pages/Home";
 import About from "./components/home/about/About";
 import ProductDetail from "./pages/productdetail/ProductDetail";
-import { CartProvider } from "./context/CartContext";
-
 import Cart from "./pages/Cart";
-
-const routes = [
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/about",
-    element: <About />,
-  },
-  {
-    path: "/product/:id",
-    element: <ProductDetail />,
-  },
-  {
-    path: "/cart",
-    element: <Cart />,
-  },
-  // Tambahkan route lain di sini jika perlu
-];
+import { CartProvider } from "./context/CartContext";
 
 function AppWrapper() {
   const navigate = useNavigate();
+
+  // 🔥 SearchTerm harus didefinisikan di sini
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -48,9 +29,16 @@ function AppWrapper() {
 
   return (
     <Routes>
-      {routes.map(({ path, element }) => (
-        <Route key={path} path={path} element={element} />
-      ))}
+      {/* 🔥 Kirim searchTerm ke Home */}
+      <Route
+        path="/"
+        element={<Home searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
+      />
+
+      <Route path="/about" element={<About />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/cart" element={<Cart />} />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
@@ -58,7 +46,7 @@ function AppWrapper() {
 
 export default function App() {
   return (
-   <BrowserRouter>
+    <BrowserRouter>
       <CartProvider>
         <AppWrapper />
       </CartProvider>

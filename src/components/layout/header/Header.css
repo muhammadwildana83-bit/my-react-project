@@ -8,6 +8,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
+  z-index: 1;
 }
 
 /* Overlay wrapper */
@@ -24,12 +25,12 @@
 /* Search Bar */
 .header-search {
   position: absolute;
-  top: 100%;
+  top: 100%;        /* di bawah header */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%); /* Hanya horizontal */
   width: 350px;
   height: 55px;
-  z-index: 5;
+  z-index: 9999;  
 }
 
 /* Input */

@@ -2,13 +2,19 @@
     GLOBAL STYLES FOR HAYATICA UI
 ============================ */
 :root {
-  --bg-dark: #1e1e1e; /* Latar Belakang Gelap (Hampir Hitam) */
-  --text-light: #f0f0f0; /* Teks Utama Putih/Krem */
-  --accent-gold: #ffffff; /* Warna Garis dan Aksen Emas/Coklat */
-  --btn-bg: #ffffff; /* Warna Tombol Coklat/Gold */
-  --btn-text: #1e1e1e; /* Teks Tombol Gelap */
-  --radio-border: #f0f0f0;
+  --bg-dark: #ffffff;
+  --text-light: #000000;
+
+  /* GOLD PREMIUM */
+  --accent-gold: #000000;
+
+  /* BUTTON */
+  --btn-bg: #aca7a7e0;    /* dark button */
+  --btn-text: #ffffff;  /* white text */
+
+  --radio-border: #ccc9c9;
 }
+
 
 /* Terapkan Latar Belakang Gelap ke Seluruh Kontainer */
 body {
@@ -17,6 +23,7 @@ body {
 
 /* Container utama */
 .product-detail {
+  position: relative;
   max-width: 1400px; /* Lebar Disesuaikan */
   margin: 4rem auto;
   padding: 40px; /* Padding Disesuaikan */
@@ -34,16 +41,37 @@ body {
   animation: fadeIn 0.5s ease both;
 }
 
-/* HEADER BACK BUTTON (Disembunyikan) */
 .detail-header {
-  /* Dipertahankan untuk struktur, tapi back-btn disembunyikan */
-  display: none;
+  display: block; /* atau flex kalau perlu */
 }
 
 .back-btn {
-  /* Jika tetap ingin dipertahankan namun disembunyikan */
-  display: none;
+  display: flex; /* atau inline-flex */
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+  background: rgba(0,0,0,0.05);
+  color: var(--text-light);
+  font-size: 20px;
+  cursor: pointer;
+
+  z-index: 50;
+  transition: 0.2s ease;
 }
+
+.back-btn:hover {
+  background: rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
 
 /* FLOATING CART (Dipertahankan di JSX, tapi disembunyikan jika tidak ada di foto) */
 .floating-cart {

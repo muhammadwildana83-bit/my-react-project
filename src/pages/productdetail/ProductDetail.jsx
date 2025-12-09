@@ -1,18 +1,16 @@
+// ProductDetail.jsx
 import { useState, useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import products from "../../data/products";
 import { useCart } from "../../context/CartContext";
-
-// COMPONENTS
-import MainImage from "../mainimage/MainImage";
-import Gallery from "../gallery/Gallery";
-import LicenseOptions from "../licenseoption/LicenseOptions";
-import QuantityControls from "../quantitycontrols/QuantityControls";
-import AddToCartButton from "../addtocartbutton/AddToCartButton";
-import ProductInfo from "../productinfo/ProductInfo";
-
-// CSS
+import MainImage from "../../components/mainimage/MainImage";
+import Gallery from "../../components/gallery/Gallery";
+import LicenseOptions from "../../components/licenseoption/LicenseOptions";
+import QuantityControls from "../../components/quantitycontrols/QuantityControls";
+import AddToCartButton from "../../components/addtocartbutton/AddToCartButton";
+import ProductInfo from "../../components/productinfo/ProductInfo";
 import "./ProductDetail.css";
+import Footer from "../../components/layout/footer/Footer";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -76,13 +74,13 @@ const ProductDetail = () => {
 
   return (
     <>
+      <div className="detail-header">
+        <span className="back-btn" onClick={navigateBack}>
+          <i className="fa-solid fa-arrow-left"></i>
+        </span>
+      </div>
       <div className="product-detail">
         {/* HEADER (hidden by CSS) */}
-        <div className="detail-header">
-          <span className="back-btn" onClick={navigateBack}>
-            <i className="fa-solid fa-arrow-left"></i>
-          </span>
-        </div>
 
         {/* LEFT SIDE */}
         <div className="product-left">
@@ -101,7 +99,6 @@ const ProductDetail = () => {
 
         {/* RIGHT SIDE */}
         <div className="product-right">
-
           <ProductInfo product={product} />
 
           <LicenseOptions
@@ -119,8 +116,8 @@ const ProductDetail = () => {
             <AddToCartButton onClick={handleAddToCart} />
           </div>
         </div>
-
       </div>
+      <Footer />
     </>
   );
 };

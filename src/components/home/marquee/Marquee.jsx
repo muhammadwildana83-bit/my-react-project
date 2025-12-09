@@ -3,19 +3,19 @@ import "./Marquee.css";
 function Marquee() {
   const marqueeItems = [
     {
-      img: "/img/chigga 1.png",
+      img: "/img/chigga 1.jpg",
       label: "Page 1",
     },
     {
-      img: "/img/1-Tomato-Bold.png",
+      img: "/img/1-Tomato-Bold.jpg",
       label: "Page 2",
     },
     {
-      img: "/img/arcov 9.png",
+      img: "/img/arcov 9.jpg",
       label: "Page 3",
     },
     {
-      img: "/img/1.png",
+      img: "/img/1.jpg",
       label: "Page 4",
     },
     {
