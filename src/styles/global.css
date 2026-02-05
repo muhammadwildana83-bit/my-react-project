@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #ffffff;
+  color: #222;
+}
+
+/* Untuk semua ikon Font Awesome */
+.fa,
+.fas, /* solid */
+.far, /* regular */
+.fab  /* brands */
+{
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900; /* solid */
+  font-style: normal;
+  display: inline-block;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+:root {
+  /* Colors */
+  --color-text: #000;
+  --color-bg: #fff;
+  --color-primary: #000;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* Spacing */
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+}

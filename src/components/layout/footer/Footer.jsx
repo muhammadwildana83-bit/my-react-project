@@ -30,7 +30,7 @@ function Footer() {
             <i className="fa-brands fa-facebook"></i>
           </a>
           <a
-            href="https://instagram.com/namaakunmu"
+            href="https://www.instagram.com/_aksaratiga/"
             target="_blank"
             rel="noopener noreferrer"
           >

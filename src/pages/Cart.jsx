@@ -1,34 +1,100 @@
+/* =====================================================
+   CART PAGE
+   Halaman keranjang belanja, menampilkan dan mengelola item di keranjang
+====================================================== */
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import "./Cart.css";
 
+/* =========================
+   FUNGSI UTAMA HALAMAN CART
+   Menampilkan daftar produk di keranjang dan aksi terkait
+========================= */
 export default function Cart() {
+  /* =========================
+     STATE DAN FUNGSI KERANJANG
+  ========================= */
   const { cartItems, removeFromCart, clearCart } = useCart();
   const navigate = useNavigate();
 
+  // Hitung total harga semua item di keranjang
+  const total = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+
+  /* =========================
+     RENDER HALAMAN KERANJANG
+  ========================= */
   return (
-    <div style={{ maxWidth: 700, margin: "3rem auto", padding: 24, background: "#fff", borderRadius: 18 }}>
-      <h2>Keranjang Belanja</h2>
+    <div className="cart-container">
+      <h2 className="cart-title">Keranjang Belanja</h2>
+
+      {/* Jika keranjang kosong tampilkan pesan dan tombol cari produk */}
       {cartItems.length === 0 ? (
-        <div>
-          <p>Keranjang kosong.</p>
-          <button onClick={() => navigate("/")}>Kembali ke Home</button>
+        <div className="cart-empty">
+          <p>Keranjang masih kosong.</p>
+          <button onClick={() => navigate("/")} className="btn-primary">
+            Cari Produk
+          </button>
         </div>
       ) : (
         <>
-          <ul style={{ listStyle: "none", padding: 0 }}>
+          {/* Daftar item di keranjang */}
+          <ul className="cart-list">
             {cartItems.map((item) => (
-              <li key={item.id} style={{ display: "flex", alignItems: "center", marginBottom: 18 }}>
-                <img src={item.mainImg} alt={item.name} style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 8, marginRight: 18 }} />
-                <div style={{ flex: 1 }}>
-                  <h4 style={{ margin: 0 }}>{item.name}</h4>
-                  <p style={{ margin: 0 }}>Qty: {item.qty}</p>
+              <li key={item._id} className="cart-item">
+                <div className="cart-item-left">
+                  <img
+                    src={
+                      item.image
+                        ? item.image.startsWith("http")
+                          ? item.image
+                          : `http://localhost:5000/${item.image}`
+                        : "/img/default.png"
+                    }
+                    alt={item.name}
+                    className="cart-img"
+                  />
+
+                  <div>
+                    <h4 className="item-name">{item.name}</h4>
+                    <p className="item-qty">Qty: {item.qty}</p>
+                    <p className="item-price">
+                      Rp {item.price.toLocaleString()}
+                    </p>
+                  </div>
                 </div>
-                <button onClick={() => removeFromCart(item.id)} style={{ marginLeft: 12 }}>Hapus</button>
+
+                {/* Tombol hapus item dari keranjang */}
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="btn-delete"
+                >
+                  Hapus
+                </button>
               </li>
             ))}
           </ul>
-          <button onClick={clearCart} style={{ marginRight: 16 }}>Kosongkan Keranjang</button>
-          <button onClick={() => navigate("/")}>Lanjut Belanja</button>
+
+          {/* Total harga keranjang */}
+          <div className="cart-total">Total: Rp {total.toLocaleString()}</div>
+
+          {/* Tombol aksi keranjang */}
+          <div className="cart-actions">
+            <button onClick={clearCart} className="btn-secondary">
+              Kosongkan
+            </button>
+
+            <button
+              onClick={() => navigate("/checkout")}
+              className="btn-primary"
+            >
+              Checkout
+            </button>
+          </div>
+
+          {/* Tombol lanjut belanja */}
+          <button onClick={() => navigate("/")} className="btn-outline">
+            Lanjut Belanja
+          </button>
         </>
       )}
     </div>

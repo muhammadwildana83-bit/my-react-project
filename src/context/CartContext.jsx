@@ -1,25 +1,27 @@
-import { createContext, useContext, useReducer } from "react"; // membuat global storage
+import { createContext, useContext, useReducer } from "react";
 
 const CartContext = createContext();
 
-function cartReducer(state, action) { // reducer, nyimpan state biar ga re render 
+function cartReducer(state, action) {
   switch (action.type) {
     case "ADD": {
-      const exists = state.find((item) => item.id === action.product.id);
+      const exists = state.find(
+        (item) => item._id === action.product._id
+      );
 
       if (exists) {
         return state.map((item) =>
-          item.id === action.product.id
-            ? { ...item, qty: item.qty + 1 }
+          item._id === action.product._id
+            ? { ...item, qty: item.qty + action.qty }
             : item
         );
       }
 
-      return [...state, { ...action.product, qty: 1 }];
+      return [...state, { ...action.product, qty: action.qty }];
     }
 
-    case "REMOVE": 
-      return state.filter((item) => item.id !== action.id);
+    case "REMOVE":
+      return state.filter((item) => item._id !== action._id);
 
     case "CLEAR":
       return [];
@@ -29,25 +31,28 @@ function cartReducer(state, action) { // reducer, nyimpan state biar ga re rende
   }
 }
 
-export function CartProvider({ children }) { // ini untuk nyalurin semua cart ke global
+export function CartProvider({ children }) {
   const [cartItems, dispatch] = useReducer(cartReducer, []);
 
-  function addToCart(product) {
-    dispatch({ type: "ADD", product });
+  function addToCart(product, qty = 1) {
+    dispatch({ type: "ADD", product, qty });
   }
 
-  function removeFromCart(id) {
-    dispatch({ type: "REMOVE", id });
+  function removeFromCart(_id) {
+    dispatch({ type: "REMOVE", _id });
   }
 
   function clearCart() {
     dispatch({ type: "CLEAR" });
   }
 
-  const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0); // otomatis hitung produck total
+  const cartCount = cartItems.reduce(
+    (sum, item) => sum + item.qty,
+    0
+  );
 
   return (
-    <CartContext.Provider // mengirim semua data lewat Context provider
+    <CartContext.Provider
       value={{
         cartItems,
         cartCount,
@@ -61,6 +66,6 @@ export function CartProvider({ children }) { // ini untuk nyalurin semua cart ke
   );
 }
 
-export function useCart() { // hook yang dipakai untuk ambil cart dari component
+export function useCart() {
   return useContext(CartContext);
 }

@@ -9,4 +9,3 @@ const AddToCartButton = ({ onClick }) => {
 };
 
 export default AddToCartButton;
- 

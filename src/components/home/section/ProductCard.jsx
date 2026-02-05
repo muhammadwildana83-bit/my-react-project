@@ -1,20 +1,34 @@
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
-import { useCart } from "../../../context/CartContext";
 
-export default function ProductCard({
-  product,
-  setNotifMessage,
-  setShowNotif,
-}) {
-  const { addToCart } = useCart();
+export default function ProductCard({ product, setNotif }) {
+  // ================= NOTIFICATION =================
+  // Menampilkan notifikasi sementara (like / bookmark)
+  const showTempNotif = (message) => {
+    setNotif({ message, show: true });
+    setTimeout(() => setNotif({ message: "", show: false }), 1200);
+  };
+
+  // ================= IMAGE SOURCE =================
+  // Image sekarang diambil dari backend
+  // product.image = "uploads/xxxxx.jpg"
+  const imageUrl = product.image?.startsWith("http")
+  ? product.image
+  : product.image
+  ? `http://localhost:5000/${product.image}`
+  : "/img/default.png";
+
+
   return (
     <div className="product-card">
       <div className="image-wrapper">
-        <Link to={`/product/${product.id}`} className="product-link">
-         <img src={product.mainImg || product.img || '/img/default.png'} alt={product.name} />
+        {/* ================= PRODUCT DETAIL LINK ================= */}
+        {/* MongoDB pakai _id, bukan id */}
+        <Link to={`/product/${product._id}`} className="product-link">
+          <img src={imageUrl} alt={product.name} />
         </Link>
 
+        {/* ================= HOVER UI ================= */}
         <div className="hover-icons">
           <span className="hover-name">{product.name}</span>
 
@@ -22,9 +36,7 @@ export default function ProductCard({
             className="icon-btn"
             onClick={(e) => {
               e.stopPropagation();
-              setNotifMessage("Disukai");
-              setShowNotif(true);
-              setTimeout(() => setShowNotif(false), 1200);
+              showTempNotif("Disukai");
             }}
           >
             <i className="fa-regular fa-heart"></i>
@@ -34,9 +46,7 @@ export default function ProductCard({
             className="icon-btn"
             onClick={(e) => {
               e.stopPropagation();
-              setNotifMessage("Tersimpan");
-              setShowNotif(true);
-              setTimeout(() => setShowNotif(false), 1200);
+              showTempNotif("Tersimpan");
             }}
           >
             <i className="fa-regular fa-bookmark"></i>
