@@ -1,3 +1,7 @@
+import { useState, useEffect } from "react";
+import AdminLayout from "../../components/admin/AdminLayout";
+import "./AddProduct.css";
+
 /* ... import lainnya tetap sama ... */
 
 export default function AddProduct() {
