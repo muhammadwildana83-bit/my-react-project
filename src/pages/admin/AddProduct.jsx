@@ -1,37 +1,19 @@
-/* =====================================================
-  ADD PRODUCT PAGE
-  Halaman admin untuk menambah produk baru
-====================================================== */
-import { useState, useEffect } from "react";
-import AdminLayout from "../../components/admin/AdminLayout";
-import "./AddProduct.css";
+/* ... import lainnya tetap sama ... */
 
-/* =========================
-  FUNGSI UTAMA HALAMAN ADD PRODUCT
-  Menyimpan data produk baru ke server
-========================= */
 export default function AddProduct() {
-  /* =========================
-      STATE UNTUK FORM PRODUK
-    ========================= */
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
-  /* =========================
-       CLEANUP PREVIEW GAMBAR SAAT UNMOUNT
-    ========================= */
+
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
     };
   }, [preview]);
 
-  /* =========================
-       HANDLE SUBMIT FORM PRODUK
-    ========================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -43,34 +25,44 @@ export default function AddProduct() {
       formData.append("description", description);
       formData.append("image", image);
 
-      await fetch("https://backend-project-production-6368.up.railway.app/api/products", {
+      // Ambil token dari localStorage (Pastikan kamu simpan token pas login)
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("https://backend-project-production-6368.up.railway.app/api/products", {
         method: "POST",
+        headers: {
+          // Tambahkan Authorization jika backend kamu butuh login
+          "Authorization": `Bearer ${token}`
+        },
         body: formData,
       });
 
-      alert("Produk berhasil ditambahkan!");
-
-      setName("");
-      setPrice("");
-      setDescription("");
-      setImage(null);
+      if (response.ok) {
+        alert("Produk berhasil ditambahkan!");
+        // --- RESET SEMUA STATE ---
+        setName("");
+        setPrice("");
+        setDescription("");
+        setImage(null);
+        setPreview(null); // Ini penting supaya preview hilang setelah sukses
+      } else {
+        const errorData = await response.json();
+        alert(`Gagal: ${errorData.message}`);
+      }
     } catch (error) {
-      alert("Gagal menambahkan produk");
+      console.error("Error:", error);
+      alert("Gagal menghubungi server");
     } finally {
       setLoading(false);
     }
   };
 
-  /* =========================
-       RENDER FORM TAMBAH PRODUK
-    ========================= */
   return (
     <AdminLayout>
       <div className="admin-page">
         <form onSubmit={handleSubmit} className="admin-form">
           <h1>Tambah Produk</h1>
 
-          {/* Input Nama Produk */}
           <input
             placeholder="Nama produk"
             value={name}
@@ -78,7 +70,6 @@ export default function AddProduct() {
             required
           />
 
-          {/* Input Harga Produk */}
           <input
             type="number"
             placeholder="Harga"
@@ -87,43 +78,35 @@ export default function AddProduct() {
             required
           />
 
-          {/* Input Deskripsi Produk */}
           <textarea
             placeholder="Deskripsi"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          {/* Input Gambar Produk */}
           <input
             type="file"
             accept="image/*"
             onChange={(e) => {
               const file = e.target.files[0];
-              setImage(file);
-              setPreview(URL.createObjectURL(file));
+              if (file) {
+                setImage(file);
+                setPreview(URL.createObjectURL(file)); // Membuat link sementara buat dilihat di browser
+              }
             }}
             required
           />
 
-          {/* Preview Gambar Produk */}
+          {/* Preview ini HANYA untuk melihat sebelum diupload */}
           {preview && (
-            <img
-              src={preview}
-              alt="preview"
-              style={{
-                width: "220px",
-                marginTop: "10px",
-                borderRadius: "8px",
-                objectFit: "cover",
-                border: "1px solid #ddd",
-              }}
-            />
+            <div className="preview-container">
+               <p>Preview Gambar:</p>
+               <img src={preview} alt="preview" style={{ width: "220px", borderRadius: "8px" }} />
+            </div>
           )}
 
-          {/* Tombol Submit */}
           <button type="submit" disabled={loading}>
-            {loading ? "Menyimpan..." : "Tambah Produk"}
+            {loading ? "Sedang Menyimpan..." : "Tambah Produk"}
           </button>
         </form>
       </div>
