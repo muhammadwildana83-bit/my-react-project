@@ -42,10 +42,25 @@ export default function AdminProducts() {
       HELPER: Handle URL Gambar agar tidak broken
   ====================================================== */
   // Helper untuk memastikan URL gambar valid
+ /* =====================================================
+      HELPER: Handle URL Gambar agar tidak broken
+  ====================================================== */
   const getImageUrl = (image) => {
+    const BASE_URL = "https://backend-project-production-6368.up.railway.app";
+    
     if (!image) return "/img/default.png";
+
+    // Jika di database isinya link localhost, ganti paksa ke Railway
+    if (image.includes("localhost:5000")) {
+      return image.replace("http://localhost:5000", BASE_URL);
+    }
+
+    // Jika sudah link internet (http/https), langsung pakai
     if (image.startsWith("http")) return image;
-    return `http://localhost:5000/${image}`;
+
+    // Jika cuma path folder (uploads/xxx.jpg), gabungkan dengan BASE_URL
+    const cleanPath = image.startsWith("/") ? image.slice(1) : image;
+    return `${BASE_URL}/${cleanPath}`;
   };
 
   /* =====================================================
