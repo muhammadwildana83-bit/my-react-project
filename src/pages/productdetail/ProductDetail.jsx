@@ -39,7 +39,7 @@ const ProductDetail = () => {
           // Perbaiki cara set gambar agar dinamis
           const backendBaseUrl =
             import.meta.env.VITE_API_URL?.replace("/api", "") ||
-            "http://localhost:5000";
+            "https://backend-project-production-6368.up.railway.app";
           setMainImage(
             res.data.data.image
               ? `${backendBaseUrl}/${res.data.data.image}`

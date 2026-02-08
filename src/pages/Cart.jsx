@@ -47,7 +47,7 @@ export default function Cart() {
                       item.image
                         ? item.image.startsWith("http")
                           ? item.image
-                          : `http://localhost:5000/${item.image}`
+                          : `https://backend-project-production-6368.up.railway.app/${item.image}`
                         : "/img/default.png"
                     }
                     alt={item.name}

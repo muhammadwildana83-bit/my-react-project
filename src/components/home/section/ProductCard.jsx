@@ -12,14 +12,14 @@ export default function ProductCard({ product, setNotif }) {
   // ================= IMAGE SOURCE =================
   // Image sekarang diambil dari backend
   // product.image = "uploads/xxxxx.jpg"
+  // Ganti bagian backendBaseUrl menjadi link Railway kamu langsung
   const backendBaseUrl =
-    import.meta.env.VITE_API_URL?.replace("/api", "") ||
-    "http://localhost:5000";
+    "https://backend-project-production-6368.up.railway.app";
 
   const imageUrl = product.image?.startsWith("http")
-    ? product.image
+    ? product.image.replace("http://localhost:5000", backendBaseUrl) // Jaga-jaga kalau ada link localhost di database
     : product.image
-      ? `${backendBaseUrl}/${product.image}`
+      ? `${backendBaseUrl}/${product.image.startsWith("/") ? product.image.slice(1) : product.image}`
       : "/img/default.png";
   return (
     <div className="product-card">
