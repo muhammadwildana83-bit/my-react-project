@@ -23,7 +23,7 @@ export default function AdminProducts() {
     // Ambil data produk dari backend saat komponen mount
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/products");
+        const response = await fetch("https://backend-project-production-6368.up.railway.app/api/products");
         const resData = await response.json();
 
         if (resData.success && Array.isArray(resData.data)) {
@@ -58,7 +58,7 @@ export default function AdminProducts() {
     setDeleting(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/products/${confirmId}`,
+        `https://backend-project-production-6368.up.railway.app/api/products/${confirmId}`,
         {
           method: "DELETE",
           // headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` } // Jika butuh token

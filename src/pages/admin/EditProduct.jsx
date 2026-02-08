@@ -22,7 +22,7 @@ export default function EditProduct() {
       FETCH DATA PRODUCT: Ambil data lama
   ========================= */
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`https://backend-project-production-6368.up.railway.app/api/products/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Gagal mengambil data");
         return res.json();
@@ -35,7 +35,7 @@ export default function EditProduct() {
 
         // Set preview awal dengan gambar dari server
         if (productData.image) {
-          setImagePreview(`http://localhost:5000/${productData.image}`);
+          setImagePreview(`https://backend-project-production-6368.up.railway.app/api/products/${productData.image}`);
         }
         setLoading(false);
       })

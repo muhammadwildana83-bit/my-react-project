@@ -22,7 +22,7 @@ export default function Register({ setMode, setShowForm }) {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/register", {
+      const res = await fetch("https://backend-project-production-6368.up.railway.app/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

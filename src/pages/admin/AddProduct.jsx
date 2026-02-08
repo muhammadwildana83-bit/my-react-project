@@ -43,7 +43,7 @@ export default function AddProduct() {
       formData.append("description", description);
       formData.append("image", image);
 
-      await fetch("http://localhost:5000/api/products", {
+      await fetch("https://backend-project-production-6368.up.railway.app/api/products", {
         method: "POST",
         body: formData,
       });
