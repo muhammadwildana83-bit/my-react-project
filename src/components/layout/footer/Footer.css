@@ -1,38 +1,39 @@
 .footer {
   background: #111;
   color: #fff;
-  padding: 80px 0 50px; /* Atas 80px • Kanan/Kiri 0 • Bawah 50px */
+  padding: 80px 0 50px;
   font-family: "Inter", sans-serif;
   margin-top: 100px;
+  width: 100%;
 }
 
 .footer-container {
-  max-width: 1200px;
+  /* Gunakan max-width yang lebih lebar agar elemen bisa mencar secara alami */
+  max-width: 1400px; 
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 0 20px; /* Tambah padding kecil biar ga nempel layar */
+  justify-content: space-between; /* Ini otomatis dorong logo ke kiri & social ke kanan */
+  padding: 0 5%; /* Gunakan % agar fleksibel saat di-zoom */
 }
 
 /* Logo Section */
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 15px;
 }
 
 .footer-logo img {
-  width: 90px;
-  height: 90px;
+  width: 70px; /* Dikecilkan dikit biar gak terlalu mendominasi */
+  height: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.25));
-  margin-left: -100px; /* Geser lebih ke kiri */
+  /* HAPUS margin-left: -100px */
 }
 
 .footer-logo h2 {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -40,31 +41,31 @@
 /* Menu Tengah */
 .footer-menu {
   display: flex;
-  gap: 50px;
+  gap: 40px;
 }
 
 .footer-menu a {
   color: #ccc;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
   transition: 0.3s;
-  font-size: 1.35rem;
+  font-size: 1.1rem; /* 1.35rem agak kegedean buat footer desktop */
 }
 
 .footer-menu a:hover {
-  color: #fff;
+  color: #fbff00; /* Warna kuning branding kamu */
 }
 
 /* Social Icons Kanan */
 .footer-social {
   display: flex;
-  gap: 18px;
-  margin-right: -100px; /* Biar lebih ke kanan */
+  gap: 20px;
+  /* HAPUS margin-right: -100px */
 }
 
 .footer-social a {
   color: #ccc;
-  font-size: 32px;
+  font-size: 24px; /* Ukuran ikon standar yang lebih rapi */
   transition: 0.3s;
 }
 
@@ -75,30 +76,10 @@
 
 /* Copyright */
 .footer-copy {
-  margin-top: 50px;
+  margin-top: 60px;
   text-align: center;
-  color: #aaa;
-  font-size: 0.9rem;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .footer-container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .footer-social {
-    margin-right: 0;
-  }
-
-  .footer-logo img {
-    margin-left: 0;
-  }
-}
-@media (max-width: 480px) {
-  .footer-menu {
-    flex-direction: column;
-    gap: 15px;
-  }
+  color: #666; /* Warna lebih gelap biar gak ganggu fokus utama */
+  font-size: 0.85rem;
+  padding: 0 20px;
+  line-height: 1.6;
 }

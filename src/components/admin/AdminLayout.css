@@ -1,0 +1,22 @@
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f7f6; /* Warna abu-abu soft biar mata nggak capek */
+}
+
+.admin-main-content {
+  flex: 1;
+  margin-left: 220px; /* Sesuai lebar sidebar */
+  padding: 40px;
+  width: calc(100% - 220px);
+  transition: all 0.3s ease;
+}
+
+/* Biar kalau di layar kecil, layout-nya nggak hancur */
+@media (max-width: 768px) {
+  .admin-main-content {
+    margin-left: 0;
+    padding: 20px;
+    width: 100%;
+  }
+}

@@ -1,19 +1,32 @@
-/* Navigation */
+/* Navigation Wrapper */
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 30px;
+  /* Gunakan gap saja, hapus margin-left di elemen 'a' nanti */
+  gap: clamp(20px, 4vw, 50px); 
 }
 
 .header-nav a {
-  margin-left: 90px;
+  /* HAPUS margin-left: 90px; */
   text-decoration: none;
-  color: #ffffffff;
+  color: #ffffff;
   font-weight: 600;
-  transition: 0.25s;
-  font-size: 20px;
+  transition: all 0.3s ease;
+  font-size: 15px; /* Sedikit dikecilkan dari 20px biar lebih proporsional di 100% */
+  white-space: nowrap; /* Biar teks menu nggak kepotong jadi 2 baris */
 }
 
 .header-nav a:hover {
   color: #dad8d89f;
+  transform: translateY(-2px); /* Sedikit efek angkat biar lebih interaktif */
+}
+
+/* Responsif: Kalau layar makin kecil (atau di-zoom makin besar) */
+@media (max-width: 1024px) {
+  .header-nav {
+    gap: 20px;
+  }
+  .header-nav a {
+    font-size: 16px;
+  }
 }

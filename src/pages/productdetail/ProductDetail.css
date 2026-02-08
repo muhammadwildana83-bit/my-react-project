@@ -4,14 +4,9 @@
 :root {
   --bg-dark: #ffffff;
   --text-light: #000000;
-
-  /* GOLD PREMIUM */
-  --accent-gold: #000000;
-
-  /* BUTTON */
+  --accent-gold: #000000; 
   --btn-bg: #aca7a7e0;    /* dark button */
   --btn-text: #ffffff;  /* white text */
-
   --radio-border: #ccc9c9;
 }
 
@@ -77,3 +72,4 @@ body {
 .floating-cart {
   display: none; /* Sembunyikan floating cart */
 }
+

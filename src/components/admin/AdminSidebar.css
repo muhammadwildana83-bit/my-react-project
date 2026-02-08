@@ -1,0 +1,57 @@
+.admin-sidebar {
+  width: 220px;
+  height: 100vh;      /* Tinggi full layar */
+  background: #111;
+  color: #fff;
+  padding: 24px;
+  position: fixed;    /* Mengunci sidebar di kiri, tidak ikut scroll */
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Menendang Logout ke bawah */
+  box-sizing: border-box;
+  z-index: 100;       /* Biar selalu di depan */
+}
+
+.sidebar-title {
+  margin-bottom: 32px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: #333;
+  margin: 10px 0;
+}
+
+.btn-logout {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-logout:hover {
+  background: #a71d2a;
+}

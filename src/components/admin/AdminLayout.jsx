@@ -1,10 +1,13 @@
 import AdminSidebar from "./AdminSidebar";
+import "./AdminLayout.css"; // Import CSS-nya di sini
 
 export default function AdminLayout({ children }) {
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div className="admin-container">
       <AdminSidebar />
-      <main style={{ flex: 1, padding: "24px" }}>{children}</main>
+      <main className="admin-main-content">
+        {children}
+      </main>
     </div>
   );
 }

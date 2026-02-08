@@ -13,8 +13,8 @@ export default function OrderSuccess() {
           <span className="icon-check">✓</span>
         </div>
         
-        <h1>Order Berhasil!</h1>
-        <p>Pesananmu sudah masuk sistem dan sedang kami siapkan.</p>
+        <h1>Order Successful!</h1>
+        <p>Thank you for your purchase. Your order ID is</p>
 
         {/* Badge Order ID */}
         <div className="order-id-badge">
@@ -23,7 +23,7 @@ export default function OrderSuccess() {
 
         {/* Tombol dengan class btn-home */}
         <button className="btn-home" onClick={() => navigate("/")}>
-          Kembali ke Home
+         Back to Home
         </button>
       </div>
     </div>

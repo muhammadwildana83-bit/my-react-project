@@ -1,89 +1,98 @@
-/* OrderSuccess.css */
+/* =====================================================
+   ORDER SUCCESS STYLES
+===================================================== */
 .order-container {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   min-height: 80vh;
   padding: 20px;
-  background-color: #f9fafb;
+  background-color: #f9f9f9;
 }
 
 .order-card {
-  background: white;
-  padding: 48px 32px;
+  background: #ffffff;
+  padding: 40px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  max-width: 420px;
-  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   text-align: center;
-  animation: slideUp 0.5s ease-out;
+  max-width: 450px;
+  width: 100%;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* Lingkaran Ikon */
 .icon-box {
   width: 80px;
   height: 80px;
-  background-color: #ecfdf5;
+  background-color: #4caf50;
+  color: white;
   border-radius: 50%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin: 0 auto 24px;
+  align-items: center;
+  margin: 0 auto 20px;
+  font-size: 40px;
+  /* Animasi muncul */
+  animation: scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .icon-check {
-  font-size: 40px;
-  color: #10b981;
+  font-weight: bold;
 }
 
 .order-card h1 {
-  font-size: 26px;
-  color: #111827;
-  margin-bottom: 8px;
-  font-weight: 700;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .order-card p {
-  color: #6b7280;
+  color: #666;
   font-size: 16px;
-  margin-bottom: 24px;
+  line-height: 1.5;
+  margin-bottom: 25px;
 }
 
+/* Badge ID Order */
 .order-id-badge {
-  background-color: #f3f4f6;
-  color: #374151;
-  padding: 8px 16px;
-  border-radius: 100px;
-  font-family: monospace;
+  background-color: #f0fdf4;
+  border: 1px dashed #4caf50;
+  color: #2e7d32;
+  padding: 12px;
+  border-radius: 8px;
   font-size: 14px;
-  display: inline-block;
-  margin-bottom: 32px;
-  border: 1px solid #e5e7eb;
+  margin-bottom: 30px;
+  word-break: break-all; /* Biar ID panjang nggak balapan keluar */
 }
 
+/* Tombol Kembali */
 .btn-home {
-  background-color: #10b981;
+  background-color: #333;
   color: white;
   border: none;
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 15px 30px;
+  border-radius: 10px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  width: 100%;
 }
 
 .btn-home:hover {
-  background-color: #059669;
+  background-color: #000;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.btn-home:active {
-  transform: translateY(0);
+/* Animasi Sederhana */
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

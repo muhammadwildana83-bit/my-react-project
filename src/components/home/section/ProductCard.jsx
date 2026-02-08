@@ -12,13 +12,15 @@ export default function ProductCard({ product, setNotif }) {
   // ================= IMAGE SOURCE =================
   // Image sekarang diambil dari backend
   // product.image = "uploads/xxxxx.jpg"
+  const backendBaseUrl =
+    import.meta.env.VITE_API_URL?.replace("/api", "") ||
+    "http://localhost:5000";
+
   const imageUrl = product.image?.startsWith("http")
-  ? product.image
-  : product.image
-  ? `http://localhost:5000/${product.image}`
-  : "/img/default.png";
-
-
+    ? product.image
+    : product.image
+      ? `${backendBaseUrl}/${product.image}`
+      : "/img/default.png";
   return (
     <div className="product-card">
       <div className="image-wrapper">

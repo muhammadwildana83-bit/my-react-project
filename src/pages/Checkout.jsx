@@ -24,21 +24,23 @@ export default function Checkout() {
   ========================= */
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.qty,
-    0
+    0,
   );
 
   const isDisabled =
     !form.name || !form.email || !form.whatsapp || cartItems.length === 0;
 
-  const formatPrice = (price) =>
-    price.toLocaleString("id-ID");
+  const formatPrice = (price) => price.toLocaleString("id-ID");
 
   /* =========================
      SUBMIT ORDER (FINAL)
   ========================= */
   const handleSubmit = async () => {
+    // 1. Validasi awal
+    if (isDisabled || isLoading) return;
+
+    setIsLoading(true); // Mulai loading
     try {
-       if (isDisabled) return;
       const orderPayload = {
         customer: {
           name: form.name,
@@ -47,25 +49,27 @@ export default function Checkout() {
           paymentMethod: form.payment,
         },
         items: cartItems.map((item) => ({
-          productId: item._id,   // ✅ backend expects productId
-          quantity: item.qty,     // ✅ backend expects quantity
+          productId: item._id,
+          quantity: item.qty,
         })),
         totalPrice,
       };
 
-      console.log("ORDER PAYLOAD:", orderPayload);
-
       const res = await API.post("/orders", orderPayload);
 
-      console.log("ORDER RESPONSE:", res.data);
-
-      clearCart();
-
-      // ✅ redirect ke halaman sukses
-      navigate(`/order-success/${res.data.data._id}`);
+      // 2. Jika sukses, bersihkan cart dan pindah halaman
+      if (res.data.success) {
+        clearCart();
+        navigate(`/order-success/${res.data.data._id}`);
+      }
     } catch (error) {
       console.error("Gagal membuat order:", error);
-      alert("Gagal membuat order ❌");
+      alert(
+        error.response?.data?.message ||
+          "Gagal membuat order, coba lagi nanti ❌",
+      );
+    } finally {
+      setIsLoading(false); // Matikan loading apa pun hasilnya
     }
   };
 
@@ -97,9 +101,7 @@ export default function Checkout() {
             <input
               type="text"
               value={form.name}
-              onChange={(e) =>
-                setForm({ ...form, name: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
           </div>
 
@@ -108,9 +110,7 @@ export default function Checkout() {
             <input
               type="email"
               value={form.email}
-              onChange={(e) =>
-                setForm({ ...form, email: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
           </div>
 
@@ -119,9 +119,7 @@ export default function Checkout() {
             <input
               type="text"
               value={form.whatsapp}
-              onChange={(e) =>
-                setForm({ ...form, whatsapp: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
             />
           </div>
 
@@ -134,9 +132,7 @@ export default function Checkout() {
                 className={`payment-card ${
                   form.payment === method ? "active" : ""
                 }`}
-                onClick={() =>
-                  setForm({ ...form, payment: method })
-                }
+                onClick={() => setForm({ ...form, payment: method })}
               >
                 {method.toUpperCase()}
               </div>
@@ -144,11 +140,11 @@ export default function Checkout() {
           </div>
 
           <button
-            className="btn-primary full-btn"
-            disabled={isDisabled}
+            className={`btn-primary full-btn ${isLoading ? "loading" : ""}`}
+            disabled={isDisabled || isLoading}
             onClick={handleSubmit}
           >
-            Place Order
+            {isLoading ? "Processing Your Order..." : "Place Order"}
           </button>
         </div>
 

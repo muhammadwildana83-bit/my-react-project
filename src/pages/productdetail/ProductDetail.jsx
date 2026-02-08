@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import API from "../../api/axios";
 
 import MainImage from "../../components/mainimage/MainImage";
 import Gallery from "../../components/gallery/Gallery";
@@ -27,26 +28,32 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
 
   // ================= FETCH =================
+  // ... di dalam useEffect
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Produk tidak ditemukan");
-        return res.json();
-      })
-      .then((res) => {
-        if (res.success) {
-          setProduct(res.data);
+    const getDetail = async () => {
+      try {
+        const res = await API.get(`/products/${id}`); // Pakai axios instance
+        if (res.data.success) {
+          setProduct(res.data.data);
+
+          // Perbaiki cara set gambar agar dinamis
+          const backendBaseUrl =
+            import.meta.env.VITE_API_URL?.replace("/api", "") ||
+            "http://localhost:5000";
           setMainImage(
-            res.data.image
-              ? `http://localhost:5000/${res.data.image}`
+            res.data.data.image
+              ? `${backendBaseUrl}/${res.data.data.image}`
               : "/img/default.png",
           );
-        } else {
-          setProduct(null);
         }
-      })
-      .catch(() => setProduct(null))
-      .finally(() => setLoading(false));
+      } catch (err) {
+        console.error("Produk tidak ditemukan", err);
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getDetail();
   }, [id]);
 
   // ================= DERIVED DATA (HARUS DI ATAS) =================

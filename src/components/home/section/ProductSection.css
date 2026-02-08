@@ -14,12 +14,6 @@
   margin: 0 auto;
 }
 
-.section h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #000000;
-}
-
 .p-sec {
   font-size: 1.35rem;
   color: #464545;
@@ -36,11 +30,19 @@
 
 .product-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-  margin-top: 80px;
+  /* KUNCI: Biarkan browser yang nentuin jumlah kolom berdasarkan lebar minimal */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+  gap: 30px; /* Sedikit dirapatkan agar lebih elegan */
+  margin-top: 60px;
+  width: 100%;
 }
 
+.section {
+  text-align: center;
+  padding: 80px 5%; /* Gunakan % agar padding menyesuaikan zoom */
+  max-width: 1600px; /* Batasi agar tidak melar banget di layar ultra-wide */
+  margin: 0 auto;
+}
 .no-result {
   margin-top: 40px;
   font-size: 1.4rem;

@@ -3,64 +3,70 @@ import { useNavigate, useParams } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
 import "./EditProduct.css";
 
-/* =====================================================
-  EDIT PRODUCT PAGE
-  Halaman admin untuk mengedit produk
-====================================================== */
 export default function EditProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   /* =========================
-     STATE FORM
+      STATE FORM
   ========================= */
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [imagePreview, setImagePreview] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(""); // Untuk nampilin di layar
+  const [imageFile, setImageFile] = useState(null);    // Untuk dikirim ke server
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false); // State biar tombol gak diklik 2x
 
   /* =========================
-     FETCH DATA PRODUCT
+      FETCH DATA PRODUCT: Ambil data lama
   ========================= */
   useEffect(() => {
     fetch(`http://localhost:5000/api/products/${id}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Failed fetch");
+        if (!res.ok) throw new Error("Gagal mengambil data");
         return res.json();
       })
-      .then((data) => {
-        setName(data.name || "");
-        setPrice(data.price ? String(data.price) : "");
-        setDescription(data.description || "");
-        setImagePreview(
-          data.image ? `http://localhost:5000/${data.image}` : ""
-        );
+      .then((res) => {
+        const productData = res.data;
+        setName(productData.name || "");
+        setPrice(productData.price ? String(productData.price) : "");
+        setDescription(productData.description || "");
+
+        // Set preview awal dengan gambar dari server
+        if (productData.image) {
+          setImagePreview(`http://localhost:5000/${productData.image}`);
+        }
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         alert("Gagal mengambil data produk");
-        setLoading(false);
+        navigate("/admin/products"); // Balikin ke list kalau ID salah
       });
-  }, [id]);
+  }, [id, navigate]);
 
   /* =========================
-     HANDLE IMAGE CHANGE
+      HANDLE IMAGE CHANGE: Preview Instan
   ========================= */
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
+      // Bersihkan memory preview lama kalau ada, biar gak berat
+      if (imagePreview && imagePreview.startsWith("blob:")) {
+        URL.revokeObjectURL(imagePreview);
+      }
       setImagePreview(URL.createObjectURL(file));
     }
   };
 
   /* =========================
-     HANDLE SUBMIT
+      HANDLE SUBMIT: Update ke Server
   ========================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSaving(true); // Mulai loading simpan
 
     try {
       const formData = new FormData();
@@ -68,89 +74,107 @@ export default function EditProduct() {
       formData.append("price", price);
       formData.append("description", description);
 
+      // LOGIC GAMBAR: 
+      // Kalau ada file baru, upload file-nya.
+      // Kalau nggak ada, backend biasanya gak perlu dikirimin field image 
+      // atau kirim path lamanya aja (tergantung setup backend-mu).
       if (imageFile) {
-        // upload gambar baru
         formData.append("image", imageFile);
-      } else {
-        // kirim path gambar lama
-        const oldPath = imagePreview.replace(
-          "http://localhost:5000/",
-          ""
-        );
-        formData.append("image", oldPath);
       }
 
-      const res = await fetch(
-        `http://localhost:5000/api/products/${id}`,
-        {
-          method: "PUT",
-          body: formData, // JANGAN set Content-Type
-        }
-      );
+      const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+        method: "PUT",
+        body: formData, // Biarkan browser yang set Content-Type secara otomatis
+      });
 
       if (!res.ok) throw new Error("Update failed");
 
-      alert("Produk berhasil diupdate!");
+      alert("Produk berhasil diperbarui, Bos!");
       navigate("/admin/products");
     } catch (error) {
-      alert("Terjadi kesalahan saat update produk");
+      console.error(error);
+      alert("Waduh, gagal update produk!");
+    } finally {
+      setSaving(false);
     }
   };
 
-  /* =========================
-     LOADING STATE
-  ========================= */
-  if (loading) return <p>Loading...</p>;
+  if (loading) return (
+    <AdminLayout>
+      <div className="edit-loading">Lagi ngambil data produk lama...</div>
+    </AdminLayout>
+  );
 
-  /* =========================
-     RENDER
-  ========================= */
   return (
     <AdminLayout>
       <div className="edit-product-container">
-        <h1>Edit Produk</h1>
+        <header className="edit-header">
+          <h1>Edit Detail Produk</h1>
+          <p>ID: {id}</p>
+        </header>
 
         <form className="edit-form" onSubmit={handleSubmit}>
+          {/* SECTION GAMBAR */}
           <div className="image-section">
-            <img
-              src={imagePreview || "/img/default.png"}
-              alt="Preview"
+            <label>Foto Produk</label>
+            <div className="preview-wrapper">
+              <img src={imagePreview || "/img/default.png"} alt="Preview" />
+            </div>
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={handleImageChange}
+              id="file-input"
+            />
+            <label htmlFor="file-input" className="file-label">
+              <i className="fa-solid fa-camera"></i> Ganti Foto
+            </label>
+          </div>
+
+          {/* SECTION INPUT DATA */}
+          <div className="input-section">
+            <label>Nama Produk</label>
+            <input
+              type="text"
+              placeholder="Contoh: Kopi Gula Aren"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
             />
 
+            <label>Harga (Rp)</label>
             <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
+              type="number"
+              placeholder="Contoh: 15000"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+
+            <label>Deskripsi Produk</label>
+            <textarea
+              placeholder="Jelaskan detail produknya di sini..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows="5"
             />
           </div>
 
-          <input
-            type="text"
-            placeholder="Nama produk"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-
-          <input
-            type="number"
-            placeholder="Harga"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
-
-          <textarea
-            placeholder="Deskripsi"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-
-          <div className="actions">
-            <button type="button" onClick={() => navigate(-1)}>
+          <div className="edit-actions">
+            <button 
+              type="button" 
+              className="btn-back" 
+              onClick={() => navigate(-1)}
+            >
               Batal
             </button>
-            <button type="submit">Simpan</button>
+            <button 
+              type="submit" 
+              className="btn-save" 
+              disabled={saving}
+            >
+              {saving ? "Menyimpan..." : "Simpan Perubahan"}
+            </button>
           </div>
         </form>
       </div>

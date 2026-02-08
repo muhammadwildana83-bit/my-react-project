@@ -1,11 +1,71 @@
+/* src/styles/button.css */
+
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Jarak kalau ada ikon di dalem tombol */
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
-  border: none;
+  border: 2px solid transparent; /* Border default transparan biar gak geser pas hover outline */
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
+  transition: all 0.25s var(--transition-smooth, ease);
+  white-space: nowrap;
 }
 
+/* --- VARIANTS --- */
+
+/* Primary: Hitam (sesuai variabelmu) */
 .btn-primary {
-  background: var(--color-primary);
+  background-color: var(--color-primary);
   color: var(--color-bg);
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+  transform: translateY(-2px); /* Efek melayang dikit */
+}
+
+/* Outline: Biar gak semua tombol warnanya nge-blok */
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+/* --- SIZES --- */
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.btn-lg {
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  border-radius: var(--radius-lg);
+}
+
+/* --- STATE --- */
+
+.btn:active {
+  transform: scale(0.96); /* Efek mendem pas diklik */
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.btn-pill {
+  border-radius: 999px; /* Melengkung sempurna */
 }

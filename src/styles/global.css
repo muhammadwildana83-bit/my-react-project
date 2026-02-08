@@ -1,38 +1,32 @@
+:root {
+  /* --- Brand Colors --- */
+  --primary-color: #fbff00;    /* Kuning branding kamu */
+  --dark-color: #111111;       /* Hitam premium */
+  --text-main: #222222;        /* Untuk teks badan */
+  --text-muted: #666666;       /* Untuk teks kurang penting */
+  --white: #ffffff;
+
+  /* --- Radius (Sudah oke, kita buat lebih konsisten) --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 25px; /* Pill shape untuk tombol atau search bar */
+
+  /* --- Spacing --- */
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+  --space-xl: 60px; /* Buat jarak antar section */
+  
+  /* --- Shadows --- */
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-bold: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background-color: #ffffff;
-  color: #222;
-}
-
-/* Untuk semua ikon Font Awesome */
-.fa,
-.fas, /* solid */
-.far, /* regular */
-.fab  /* brands */
-{
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900; /* solid */
-  font-style: normal;
-  display: inline-block;
-  text-rendering: auto;
-  line-height: 1;
-}
-
-:root {
-  /* Colors */
-  --color-text: #000;
-  --color-bg: #fff;
-  --color-primary: #000;
-
-  /* Radius */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-
-  /* Spacing */
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
+  font-family: 'Inter', sans-serif; /* Pakai Inter biar lebih modern */
+  background-color: var(--white);
+  color: var(--text-main);
+  overflow-x: hidden; /* Penyelamat dari scrollbar horizontal */
 }
