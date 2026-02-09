@@ -30,6 +30,18 @@
   width: 14px;
   height: 14px;
   border: 1px solid var(--radio-border);
+
+@media (max-width: 768px) {
+  .license-options {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .license-option {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+}
   border-radius: 50%;
   margin-right: 10px;
   position: relative;

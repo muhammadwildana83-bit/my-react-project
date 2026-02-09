@@ -57,3 +57,12 @@
     border-radius: 10px; /* tombol lebih enak di HP */
   }
 }
+
+@media (max-width: 768px) {
+  .add-to-cart-btn {
+    padding: 8px 4px;
+    font-size: 13px;
+    border-radius: 6px;
+    height: 38px;
+  }
+}

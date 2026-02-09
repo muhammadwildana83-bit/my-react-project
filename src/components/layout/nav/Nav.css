@@ -23,6 +23,19 @@
 
 /* Responsif: Kalau layar makin kecil (atau di-zoom makin besar) */
 @media (max-width: 1024px) {
+
+/* MEDIA QUERY RESPONSIVE NAV */
+@media (max-width: 768px) {
+  .nav {
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nav a {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+}
   .header-nav {
     gap: 20px;
   }

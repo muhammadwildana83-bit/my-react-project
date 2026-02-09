@@ -36,3 +36,18 @@
   border-color: #000000; /* Atau warna gold premium kamu */
   transform: scale(1.05);
 }
+
+@media (max-width: 768px) {
+  .gallery-section {
+    margin-top: 0.5rem;
+  }
+  .gallery-scroll {
+    gap: 4px;
+    padding-bottom: 2px;
+  }
+  .gallery-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+  }
+}

@@ -35,6 +35,24 @@ body {
 .about-header::before {
   content: "";
   position: absolute;
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 16px 0;
+  }
+  .about-content {
+    max-width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  .about-title {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  .about-desc {
+    font-size: 0.9rem;
+  }
+}
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
 }

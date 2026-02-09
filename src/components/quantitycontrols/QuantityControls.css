@@ -47,3 +47,22 @@
   /* Hapus atau atur ulang properti yang tidak sesuai */
   margin-bottom: 0;
 }
+
+/* MEDIA QUERY RESPONSIVE QUANTITY CONTROLS */
+@media (max-width: 768px) {
+  .cart-controls {
+    gap: 6px;
+  }
+  .quantity-control {
+    height: 32px;
+  }
+  .qty-btn {
+    padding: 0 6px;
+    font-size: 14px;
+  }
+  .qty-input {
+    width: 18px;
+    font-size: 12px;
+    line-height: 32px;
+  }
+}

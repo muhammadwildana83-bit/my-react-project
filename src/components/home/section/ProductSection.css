@@ -49,6 +49,34 @@
   color: #666;
 }
 
+
+/* MEDIA QUERY RESPONSIVE PRODUCT SECTION */
+@media (max-width: 768px) {
+  .section-content {
+    padding: 24px 4px;
+    max-width: 100%;
+  }
+  .section-title {
+    font-size: 1rem;
+    margin-top: 0.2rem;
+  }
+  .product-grid {
+    grid-template-columns: 1fr;
+    margin-top: 24px;
+  }
+  .product-section {
+    padding: 24px 2%;
+    max-width: 100%;
+  }
+  .product-section-title {
+    font-size: 1rem;
+    margin-top: 16px;
+  }
+  .product-section-button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
 /* NOTIFICATION */
 .cart-notif {
   position: fixed;

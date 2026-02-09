@@ -64,6 +64,33 @@
 }
 
 .footer-social a {
+
+  /* MEDIA QUERY RESPONSIVE FOOTER */
+  @media (max-width: 768px) {
+    .footer {
+      padding: 40px 0 20px;
+      margin-top: 40px;
+      max-width: 100%;
+    }
+    .footer-content {
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+    .footer-logo {
+      width: 40px;
+    }
+    .footer-links {
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+    .footer-copyright {
+      font-size: 0.75rem;
+      margin-top: 20px;
+      padding: 0 8px;
+    }
+  }
   color: #ccc;
   font-size: 24px; /* Ukuran ikon standar yang lebih rapi */
   transition: 0.3s;

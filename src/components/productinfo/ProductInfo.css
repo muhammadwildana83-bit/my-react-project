@@ -13,3 +13,16 @@
   font-size: 2rem;
   margin-bottom: 20px;
 }
+
+@media (max-width: 768px) {
+  .product-name {
+    font-size: 2rem;
+  }
+  .gold-separator {
+    margin: 10px 0;
+  }
+  .price {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+}
