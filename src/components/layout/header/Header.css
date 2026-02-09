@@ -17,7 +17,7 @@
 .header-overlay {
   position: absolute;
   top: 24px;
-  right: 24px;          /* KUNCI KE KANAN */
+  right: 10px;          /* KUNCI KE KANAN */
   left: auto;
   transform: none;
 
@@ -125,46 +125,54 @@
   opacity: 0;
 }
 
-/* MEDIA QUERY RESPONSIVE HEADER */
+/* MEDIA QUERY RESPONSIVE HEADER - VERSI OPTIMAL */
 @media (max-width: 768px) {
   .header {
     height: 60vh;
     background-position: center;
   }
+
   .header-overlay {
-    width: 98%;
+    width: 95%; /* Kasih sedikit ruang di pinggir */
     max-width: 100%;
-    padding: 8px 4px;
-    flex-direction: column;
-    gap: 8px;
+    padding: 10px 5px;
+    flex-direction: column; /* Logo di atas, Nav di bawah */
+    gap: 12px; /* Jarak antara logo dan barisan menu */
+    align-items: center;
   }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   .header-logo img {
-    width: 32px;
+    width: 28px; /* Kecilin dikit lagi */
   }
+
   .header-logo h1 {
-    font-size: 13px;
+    font-size: 14px; /* Biar lebih tegas tapi gak makan tempat */
+    white-space: nowrap; /* Biar tulisan "Aksara Tiga" gak pecah ke bawah */
   }
+
   .header-nav {
-    gap: 18px;
-    flex-wrap: wrap;
+    display: flex;
+    gap: 8px; /* JANGAN 18px! Di HP ini kegedean, makanya tumpuk-tumpukan */
+    flex-wrap: wrap; /* Kalau gak muat, dia bakal bikin baris baru otomatis */
     justify-content: center;
+    width: 100%;
   }
+
   .header-nav a {
-    font-size: 13px;
+    font-size: 11px; /* Font size 13px di HP kadang masih kegedean buat menu banyak */
+    padding: 4px 6px;
   }
+
   .header-search {
-    width: 98%;
-    max-width: 98%;
+    width: 90%; /* Biar gak nempel banget ke pinggir layar */
     left: 50%;
-    bottom: 20px;
+    bottom: 15px;
     transform: translateX(-50%);
-  }
-  .header-search input {
-    height: 38px;
-    font-size: 13px;
-    padding: 0 10px;
-  }
-  .placeholder-bubble {
-    font-size: 12px;
   }
 }
