@@ -30,3 +30,56 @@ body {
   color: var(--text-main);
   overflow-x: hidden; /* Penyelamat dari scrollbar horizontal */
 }
+
+/* =====================================================
+   RESPONSIVE GLOBAL FIX (UNTUK LAYAR HP)
+===================================================== */
+@media (max-width: 768px) {
+  
+  /* 1. Paksa Layout yang tadinya sampingan (Flex Row) jadi tumpuk (Column) */
+  /* Ini bakal benerin Sidebar yang makan setengah layar */
+  .admin-layout, .main-container, .content-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* 2. Sesuaiin Sidebar biar gak kaku */
+  .sidebar {
+    width: 100% !important; /* Lebar penuh di atas */
+    height: auto !important;
+    min-height: fit-content !important;
+    padding: 10px 0 !important;
+  }
+
+  /* 3. Bikin menu sidebar jadi baris horizontal agar hemat tempat */
+  .sidebar ul {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* 4. Beresin Form agar tidak meluber keluar layar */
+  form, .admin-form {
+    width: 95% !important;
+    margin: 10px auto !important;
+    padding: 15px !important;
+  }
+
+  /* 5. Paksa gambar produk di form/list biar gak kegedean */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* 6. Solusi Tabel: Biar bisa di-geser (scroll) ke samping */
+  .product-table, .table-container {
+    display: block !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 7. Ukuran Font: Biar gak kegedean di HP */
+  h1 { font-size: 1.5rem !important; }
+  h2 { font-size: 1.2rem !important; }
+}
