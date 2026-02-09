@@ -105,17 +105,17 @@
   .marquee-section {
     padding: 12px 0;
     margin-top: 24px;
+    width: 100vw; /* Paksa selebar layar */
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
-  .marquee-item {
-    width: 120px;
-    height: 80px;
-    margin-right: 16px;
-  }
-  .marquee-label {
-    font-size: 11px;
-    bottom: -16px;
-  }
-  .marquee-icon {
-    border-radius: 4px;
+  
+  /* Supaya bayangan layer ganda (::before/after) nggak kepotong atasnya */
+  .marquee-wrapper {
+    padding-top: 30px; 
+    padding-bottom: 30px;
   }
 }

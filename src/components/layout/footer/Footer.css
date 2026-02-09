@@ -1,3 +1,4 @@
+/* --- DESKTOP VERSION --- */
 .footer {
   background: #111;
   color: #fff;
@@ -8,16 +9,14 @@
 }
 
 .footer-container {
-  /* Gunakan max-width yang lebih lebar agar elemen bisa mencar secara alami */
   max-width: 1400px; 
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Ini otomatis dorong logo ke kiri & social ke kanan */
-  padding: 0 5%; /* Gunakan % agar fleksibel saat di-zoom */
+  justify-content: space-between; 
+  padding: 0 5%;
 }
 
-/* Logo Section */
 .footer-logo {
   display: flex;
   align-items: center;
@@ -25,11 +24,10 @@
 }
 
 .footer-logo img {
-  width: 70px; /* Dikecilkan dikit biar gak terlalu mendominasi */
+  width: 70px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.25));
-  /* HAPUS margin-left: -100px */
 }
 
 .footer-logo h2 {
@@ -38,7 +36,6 @@
   letter-spacing: 1px;
 }
 
-/* Menu Tengah */
 .footer-menu {
   display: flex;
   gap: 40px;
@@ -49,64 +46,66 @@
   text-decoration: none;
   font-weight: 600;
   transition: 0.3s;
-  font-size: 1.1rem; /* 1.35rem agak kegedean buat footer desktop */
+  font-size: 1.1rem;
 }
 
 .footer-menu a:hover {
-  color: #fbff00; /* Warna kuning branding kamu */
+  color: #fbff00;
 }
 
-/* Social Icons Kanan */
 .footer-social {
   display: flex;
   gap: 20px;
-  /* HAPUS margin-right: -100px */
 }
 
 .footer-social a {
-
-  /* MEDIA QUERY RESPONSIVE FOOTER */
-  @media (max-width: 768px) {
-    .footer {
-      padding: 40px 0 20px;
-      margin-top: 40px;
-      max-width: 100%;
-    }
-    .footer-content {
-      flex-direction: column;
-      gap: 16px;
-      align-items: center;
-    }
-    .footer-logo {
-      width: 40px;
-    }
-    .footer-links {
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-    }
-    .footer-copyright {
-      font-size: 0.75rem;
-      margin-top: 20px;
-      padding: 0 8px;
-    }
-  }
   color: #ccc;
-  font-size: 24px; /* Ukuran ikon standar yang lebih rapi */
+  font-size: 24px;
   transition: 0.3s;
 }
 
 .footer-social a:hover {
-  color: #fff;
+  color: #fbff00;
   transform: translateY(-3px);
 }
 
-/* Copyright */
 .footer-copy {
   margin-top: 60px;
   text-align: center;
-  color: #666; /* Warna lebih gelap biar gak ganggu fokus utama */
+  color: #666;
   font-size: 0.85rem;
   padding: 0 20px;
   line-height: 1.6;
+}
+
+/* --- MOBILE VERSION (MEDIA QUERY) --- */
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 0 20px;
+    margin-top: 40px;
+  }
+
+  /* Ganti footer-container jadi column agar tidak tabrakan */
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .footer-menu {
+    flex-direction: column; /* Menu baris ke bawah */
+    gap: 15px;
+  }
+
+  .footer-social {
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap; /* Biar icon gak keluar layar */
+    gap: 25px;
+  }
+
+  .footer-copy {
+    margin-top: 30px;
+    font-size: 0.75rem;
+  }
 }
