@@ -3,6 +3,9 @@ import AdminLayout from "../../components/admin/AdminLayout";
 import "./AddProduct.css";
 
 export default function AddProduct() {
+  // Ambil URL API dari Environment Variable
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -30,65 +33,70 @@ export default function AddProduct() {
     const files = Array.from(e.target.files);
     setGalleryFiles(files);
 
-    // Bikin preview buat semua foto gallery yang dipilih
     const previews = files.map((file) => URL.createObjectURL(file));
     setGalleryPreviews(previews);
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("price", price);
-    formData.append("description", description);
-    
-    // Foto Utama
-    if (image) formData.append("image", image);
+    // LOG UNTUK DEBUG (Bisa dihapus nanti)
+    console.log("Menghubungi API ke:", `${API_URL}/products`);
 
-    // Gallery
-    galleryFiles.forEach((file) => {
-      formData.append("gallery", file);
-    });
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("description", description);
+      
+      if (image) formData.append("image", image);
 
-    const token = localStorage.getItem("token");
+      galleryFiles.forEach((file) => {
+        formData.append("gallery", file);
+      });
 
-    const response = await fetch("http://localhost:5000/api/products", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`
-        // PENTING: Jangan set 'Content-Type' manual kalau pakai FormData
-      },
-      body: formData,
-    });
+      const token = localStorage.getItem("token");
 
-    // Cek apakah responnya JSON atau HTML error
-    const contentType = response.headers.get("content-type");
-    
-    if (contentType && contentType.includes("application/json")) {
-      const result = await response.json();
-      if (response.ok) {
-        alert("Produk Berhasil Disimpan!");
-        // Reset state di sini...
+      // SEKARANG SUDAH PAKAI API_URL DINAMIS
+      const response = await fetch(`${API_URL}/products`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+        body: formData,
+      });
+
+      const contentType = response.headers.get("content-type");
+      
+      if (contentType && contentType.includes("application/json")) {
+        const result = await response.json();
+        if (response.ok) {
+          alert("Produk Berhasil Disimpan, Mantap Bos!");
+          // Reset Form
+          setName("");
+          setPrice("");
+          setDescription("");
+          setImage(null);
+          setPreview(null);
+          setGalleryFiles([]);
+          setGalleryPreviews([]);
+        } else {
+          alert("Gagal Simpan: " + result.message);
+        }
       } else {
-        alert("Gagal: " + result.message);
+        const errorHTML = await response.text();
+        console.error("Server Error:", errorHTML);
+        alert("Server lagi pusing (500). Cek log Railway!");
       }
-    } else {
-      // Jika server ngirim HTML (Error 500)
-      const errorHTML = await response.text();
-      console.error("Server Error HTML:", errorHTML);
-      alert("Backend Error (500). Cek LOGS di Dashboard Railway kamu!");
-    }
 
-  } catch (error) {
-    console.error("Error Koneksi:", error);
-    alert("Gagal menghubungi server. Pastikan internet aman.");
-  } finally {
-    setLoading(false);
-  }
-};
+    } catch (error) {
+      console.error("Error Koneksi:", error);
+      alert("Gagal menghubungi server. Cek koneksi internet atau URL API di Vercel.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AdminLayout>
@@ -126,7 +134,6 @@ export default function AddProduct() {
             />
           </div>
 
-          {/* UPLOAD FOTO UTAMA */}
           <div className="upload-section">
             <label>Foto Utama (Thumbnail)</label>
             <input
@@ -148,13 +155,12 @@ export default function AddProduct() {
             )}
           </div>
 
-          {/* UPLOAD GALLERY */}
           <div className="upload-section">
-            <label>Gallery Foto Tambahan (Bisa pilih banyak)</label>
+            <label>Gallery Foto Tambahan</label>
             <input
               type="file"
               accept="image/*"
-              multiple // INI KUNCINYA
+              multiple 
               onChange={handleGalleryChange}
             />
             <div className="gallery-preview-grid">
@@ -167,7 +173,7 @@ export default function AddProduct() {
           </div>
 
           <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Sedang Menyimpan..." : "Publish Produk"}
+            {loading ? "Sabar, Lagi Upload..." : "Publish Produk"}
           </button>
         </form>
       </div>
