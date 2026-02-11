@@ -73,39 +73,47 @@ export default function EditProduct() {
       HANDLE SUBMIT: Update ke Server
   ========================= */
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSaving(true);
+  e.preventDefault();
+  setSaving(true);
 
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("price", Number(price));
-      formData.append("description", description);
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", Number(price));
+    formData.append("description", description);
 
-      if (imageFile) {
-        formData.append("image", imageFile);
-      }
-
-      // Pakai variable API_URL dari .env
-      const res = await fetch(`${API_URL}/products/${id}`, {
-        method: "PUT",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || "Update failed");
-      }
-
-      alert("Produk berhasil diperbarui, Bos!");
-      navigate("/admin/products");
-    } catch (error) {
-      console.error("Error saat update:", error);
-      alert(`Waduh, gagal update produk: ${error.message}`);
-    } finally {
-      setSaving(false);
+    // 1. Tambahkan Foto Utama (WAJIB ADA sesuai backend)
+    if (imageFile) {
+      formData.append("image", imageFile); // Nama harus "image"
     }
-  };
+
+    // 2. Tambahkan Gallery (Jika ada banyak foto)
+    if (galleryFiles && galleryFiles.length > 0) {
+      galleryFiles.forEach((file) => {
+        formData.append("gallery", file); // Nama harus "gallery"
+      });
+    }
+
+    // Karena ini TAMBAH PRODUK, pastikan Method POST dan URL tanpa ID
+    const res = await fetch(`${API_URL}/products`, {
+      method: "POST", // Ganti dari PUT ke POST
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Gagal simpan produk");
+    }
+
+    alert("Produk berhasil ditambah, Bos!");
+    navigate("/admin/products");
+  } catch (error) {
+    console.error("Error:", error);
+    alert(`Waduh, gagal: ${error.message}`);
+  } finally {
+    setSaving(false);
+  }
+};
 
   if (loading) return (
     <AdminLayout>
