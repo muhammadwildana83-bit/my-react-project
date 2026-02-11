@@ -1,37 +1,48 @@
-import "./Gallery.css";
+import React from 'react';
+import './Gallery.css';
 
-/**
- * Komponen Gallery
- * @param {Array} gallery - Array berisi URL gambar
- * @param {String} mainImage - URL gambar yang sedang aktif di MainImage
- * @param {Function} handleThumbnailClick - Fungsi untuk mengubah gambar utama
- */
 const Gallery = ({ gallery, mainImage, handleThumbnailClick }) => {
-  // Jika gallery kosong, jangan tampilkan apa-apa
+  // Fungsi pembantu untuk membajak URL (sama seperti di MainImage)
+  const getFullUrl = (path) => {
+    if (!path) return "https://placehold.co/100x100?text=No+Image";
+    if (path.startsWith("http")) {
+      // Jika ada link railway, kita arahkan ke localhost
+      if (path.includes("railway.app")) {
+        const parts = path.split("/uploads/");
+        return `http://localhost:5000/uploads/${parts[1]}`;
+      }
+      return path;
+    }
+    return `http://localhost:5000/${path.startsWith("/") ? path.substring(1) : path}`;
+  };
+
   if (!gallery || gallery.length === 0) return null;
 
-  return (
-    <div className="gallery-section">
-      <div className="gallery-scroll">
-        {gallery.map((img, i) => (
-          <div 
-            key={i}
-            className={`gallery-thumb-wrapper ${img === mainImage ? "active" : ""}`}
-            onClick={() => handleThumbnailClick(img)}
-          >
-            <img
-              src={img}
-              alt={`Thumbnail ${i + 1}`}
-              loading="lazy" 
-              className="gallery-thumb-img"
-            />
-            {/* Overlay tipis kalau lagi aktif biar makin cakep */}
-            {img === mainImage && <div className="thumb-overlay"></div>}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+ // ... kode di atas tetap sama ...
 
+ return (
+  <div className="product-gallery-section">
+    <div className="gallery-scroll-container">
+      {gallery.map((img, index) => {
+        const fullImageUrl = getFullUrl(img);
+        const isActive = getFullUrl(mainImage) === fullImageUrl;
+
+        return (
+          <div
+            key={index}
+            className={`gallery-item ${isActive ? 'active' : ''}`}
+            onClick={() => handleThumbnailClick(fullImageUrl)}
+          >
+            <img 
+              src={fullImageUrl} 
+              alt={`Gallery ${index}`} 
+              className="gallery-img-thumb" 
+            />
+          </div>
+        );
+      })}
+    </div>
+  </div>
+);
+};
 export default Gallery;

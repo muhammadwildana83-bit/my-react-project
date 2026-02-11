@@ -1,68 +1,107 @@
-/* Cart Controls */
-.cart-controls {
+.product-right {
+  display: flex;
+  flex-direction: column;
+  padding: 0 5px; /* Sedikit space agar tidak nempel dinding */
+}
+
+/* 1. Nama Produk: Simpel & Bold */
+.product-name-Aksaratiga {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 5px;
+  letter-spacing: -0.5px;
+}
+
+/* 3. Harga: Clean */
+.price-aksaratiga {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 30px;
+}
+
+/* 4. License Options: No Background, Just Clean Borders */
+.license-options-container {
+  margin-bottom: 30px;
+}
+
+.license-type-heading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.license-option-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0; /* Padding vertikal saja agar sejajar rapi */
+  border-bottom: 1px solid #eee; /* Garis bawah tipis saja */
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.license-option-item:hover {
+  color: #d4af37;
+}
+
+.license-option-item input[type="radio"] {
+  accent-color: #d4af37;
+  margin-right: 15px;
+}
+
+/* 5. Action Area: Slim & Pro */
+.action-area {
   display: flex;
   gap: 15px;
   align-items: center;
+  margin-top: 10px;
 }
 
-/* Quantity Control */
 .quantity-control {
   display: flex;
-  border: 1px solid var(--text-light);
+  align-items: center;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  overflow: hidden;
-  height: 40px; /* Tinggi disesuaikan dengan tombol */
+  height: 42px;
 }
 
-.qty-btn{
-  background: transparent;
-  color: var(--text-light);
+.qty-btn {
+  background: none;
   border: none;
-  padding: 0 12px;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: 600;
-  transition: background 0.2s;
+  width: 35px;
   height: 100%;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
 }
 
-.qty-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.qty-input{
+.qty-input {
   width: 30px;
   text-align: center;
-  background: transparent;
   border: none;
-  color: var(--text-light);
-  font-size: 16px;
-  padding: 0;
-  line-height: 40px;
+  font-weight: 600;
+  background: none;
+  color: #111;
 }
 
-/* Hapus styling bawaan yang tidak diperlukan */
-.product-right .description,
-.product-right .price {
-  /* Hapus atau atur ulang properti yang tidak sesuai */
-  margin-bottom: 0;
+/* 6. Add to Cart Button: Solid & Sleek */
+.add-to-cart-btn {
+  flex: 1;
+  background-color: #111;
+  color: #fff;
+  border: none;
+  height: 42px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
-/* MEDIA QUERY RESPONSIVE QUANTITY CONTROLS */
-@media (max-width: 768px) {
-  .cart-controls {
-    gap: 6px;
-  }
-  .quantity-control {
-    height: 32px;
-  }
-  .qty-btn {
-    padding: 0 6px;
-    font-size: 14px;
-  }
-  .qty-input {
-    width: 18px;
-    font-size: 12px;
-    line-height: 32px;
-  }
+.add-to-cart-btn:hover {
+  opacity: 0.8;
 }

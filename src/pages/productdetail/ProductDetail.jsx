@@ -21,34 +21,35 @@ const ProductDetail = () => {
   // ================= STATE =================
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [mainImage, setMainImage] = useState("");
   const [imgLoaded, setImgLoaded] = useState(false);
   const [selectedLicense, setSelectedLicense] = useState("Standard License");
   const [quantity, setQuantity] = useState(1);
 
-  // ================= FETCH =================
-  // ... di dalam useEffect
+  // Alamat Backend (Hardcoded biar aman di deploy maupun lokal)
+  const backendUrl = "https://backend-project-production-6368.up.railway.app";
+
+  // ================= FETCH DATA =================
   useEffect(() => {
     const getDetail = async () => {
       try {
-        const res = await API.get(`/products/${id}`); // Pakai axios instance
+        setLoading(true);
+        const res = await API.get(`/products/${id}`);
         if (res.data.success) {
-          setProduct(res.data.data);
+          const data = res.data.data;
+          setProduct(data);
 
-          // Perbaiki cara set gambar agar dinamis
-          const backendBaseUrl =
-            import.meta.env.VITE_API_URL?.replace("/api", "") ||
-            "https://backend-project-production-6368.up.railway.app";
-          setMainImage(
-            res.data.data.image
-              ? `${backendBaseUrl}/${res.data.data.image}`
-              : "/img/default.png",
-          );
+          // Set Foto Utama saat pertama kali load
+          const fotoUtama = data.image
+            ? data.image.startsWith("http")
+              ? data.image
+              : `${backendUrl}/${data.image}`
+            : "/placeholder.png";
+
+          setMainImage(fotoUtama);
         }
       } catch (err) {
-        console.error("Produk tidak ditemukan", err);
-        setProduct(null);
+        console.error("Gagal narik data:", err);
       } finally {
         setLoading(false);
       }
@@ -56,18 +57,37 @@ const ProductDetail = () => {
     getDetail();
   }, [id]);
 
-  // ================= DERIVED DATA (HARUS DI ATAS) =================
-  const cartCount = useMemo(() => {
-    return cartItems.reduce((sum, item) => sum + item.qty, 0);
-  }, [cartItems]);
+  // ================= LOGIKA GALLERY (BIAR MUNCUL BERJEJER) =================
+  const galleryList = useMemo(() => {
+    if (!product) return [];
+    let list = [];
 
-  const gallery = [];
+    // 1. Masukkan foto utama ke gallery
+    const mainUrl = product.image
+      ? product.image.startsWith("http")
+        ? product.image
+        : `${backendUrl}/${product.image}`
+      : "";
+    if (mainUrl) list.push(mainUrl);
+
+    // 2. Masukkan array gallery dari backend jika ada
+    if (product.gallery && Array.isArray(product.gallery)) {
+      product.gallery.forEach((img) => {
+        const url = img.startsWith("http") ? img : `${backendUrl}/${img}`;
+        list.push(url);
+      });
+    }
+
+    // Hapus duplikat URL
+    return [...new Set(list)];
+  }, [product]);
 
   // ================= HANDLERS =================
   const handleImageLoad = useCallback(() => setImgLoaded(true), []);
+
   const handleThumbnailClick = useCallback((img) => {
     setMainImage(img);
-    setImgLoaded(false);
+    setImgLoaded(false); // Reset loading state biar skeleton main image muncul bentar
   }, []);
 
   const handleQuantityChange = (delta) => {
@@ -75,74 +95,78 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = useCallback(() => {
+    if (!product) return;
     addToCart(product, quantity);
     navigate("/cart");
   }, [addToCart, product, quantity, navigate]);
 
   const navigateBack = useCallback(() => navigate(-1), [navigate]);
 
-  // ================= EARLY RETURN (SETELAH SEMUA HOOK) =================
-  if (loading) {
-    return <p style={{ padding: 40 }}>Loading product...</p>;
-  }
-
-  if (!product) {
+  // ================= EARLY RETURN =================
+  if (loading)
     return (
-      <div className="product-detail-not-found">
+      <p style={{ padding: 40, textAlign: "center" }}>Loading product...</p>
+    );
+  if (!product)
+    return (
+      <div
+        className="product-detail-not-found"
+        style={{ padding: 40, textAlign: "center" }}
+      >
         <h1>Produk tidak ditemukan</h1>
         <button onClick={navigateBack}>Kembali</button>
       </div>
     );
-  }
 
   // ================= RENDER =================
   return (
     <>
-      <div className="detail-header">
-        <span className="back-btn" onClick={navigateBack}>
-          <i className="fa-solid fa-arrow-left"></i>
-        </span>
-      </div>
-
-      <div className="product-detail">
-        <div className="product-left">
-          <MainImage
-            mainImage={mainImage}
-            imgLoaded={imgLoaded}
-            handleImageLoad={handleImageLoad}
-          />
-
-          <Gallery
-            gallery={gallery}
-            mainImage={mainImage}
-            handleThumbnailClick={handleThumbnailClick}
-          />
+      <div className="product-page-container">
+        <div className="detail-header">
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            <i className="fa-solid fa-arrow-left"></i>
+          </button>
         </div>
 
-        <div className="product-right">
-          <ProductInfo product={product} />
+        <main className="product-detail">
+          <div className="product-left">
+            {/* BUNGKUS KEDUANYA DI SINI */}
+            <div className="main-image-viewport">
+              <MainImage
+                mainImage={mainImage}
+                imgLoaded={imgLoaded}
+                handleImageLoad={handleImageLoad}
+              />
 
-          <LicenseOptions
-            options={[
-              "Standard License",
-              "Webfont License",
-              "Digital License",
-              "App/Game License",
-              "Extended License",
-            ]}
-            selectedLicense={selectedLicense}
-            setSelectedLicense={setSelectedLicense}
-          />
-
-          <div className="cart-controls">
-            <QuantityControls
-              quantity={quantity}
-              onChange={handleQuantityChange}
-            />
-
-            <AddToCartButton onClick={handleAddToCart} />
+              {/* Gallery sekarang satu rumah dengan foto gede */}
+              <Gallery
+                gallery={galleryList}
+                mainImage={mainImage}
+                handleThumbnailClick={handleThumbnailClick}
+              />
+            </div>
           </div>
-        </div>
+
+          <div className="product-right">
+            <ProductInfo product={product} />
+            <LicenseOptions
+              options={[
+                "Standard License",
+                "Webfont License",
+                "Digital License",
+              ]} // Kirim Array-nya di sini!
+              selectedLicense={selectedLicense}
+              setSelectedLicense={setSelectedLicense}
+            />
+            <div className="action-area">
+              <QuantityControls
+                quantity={quantity}
+                onChange={(d) => setQuantity((q) => Math.max(1, q + d))}
+              />
+              <AddToCartButton onClick={() => addToCart(product, quantity)} />
+            </div>
+          </div>
+        </main>
       </div>
 
       <Footer />

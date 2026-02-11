@@ -1,33 +1,30 @@
-.main-img-container {
-  position: relative;
-  background-color: var(--image-bg-orange); /* Latar Belakang Oranye */
-  padding: 10px; /* Padding di sekitar gambar */
-  border-radius: 4px;
-  box-shadow: none; /* Hapus shadow bawaan */
-}
-
-.main-img {
+.product-gallery-section {
   width: 100%;
-  /* Hapus border-radius */
-  border-radius: 0;
-  object-fit: contain; /* Gunakan contain agar gambar terlihat penuh di dalam kotak oranye */
-  box-shadow: none;
-  transition: none; /* Hapus transisi hover zoom */
+  margin-top: 10px;
+  /* KUNCI: Samakan dengan padding .main-img-container kamu! */
+  padding: 0 10px; 
+  box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  .main-image {
-    max-width: 98%;
-    border-radius: 8px;
-  }
+.gallery-scroll-container {
+  display: flex;
+  gap: 8px; 
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
-.main-img:hover {
-  transform: none;
+.gallery-item {
+  /* Karena ada padding 10px kiri-kanan (total 20px) di section, 
+     dan ada 2 gap (16px) antar foto, kodenya tetap pakai 100% */
+  flex: 0 0 calc((100% - 16px) / 3); 
+  aspect-ratio: 16 / 10;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent; /* Supaya gak geser pas active */
+  box-sizing: border-box;
 }
 
-/* Skeleton Loader - dipertahankan gayanya */
-.img-skeleton-loader {
-  height: 100%;
-  min-height: 350px;
+.gallery-item.active {
+  border-color: #000;
 }

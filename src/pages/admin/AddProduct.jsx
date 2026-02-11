@@ -2,115 +2,172 @@ import { useState, useEffect } from "react";
 import AdminLayout from "../../components/admin/AdminLayout";
 import "./AddProduct.css";
 
-/* ... import lainnya tetap sama ... */
-
 export default function AddProduct() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
+  
+  // State Foto Utama
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+
+  // State Gallery (Banyak Foto)
+  const [galleryFiles, setGalleryFiles] = useState([]);
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
+  // Cleanup memory untuk URL preview biar gak leak
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
+      galleryPreviews.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [preview]);
+  }, [preview, galleryPreviews]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  // Handler Gallery
+  const handleGalleryChange = (e) => {
+    const files = Array.from(e.target.files);
+    setGalleryFiles(files);
 
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("price", price);
-      formData.append("description", description);
-      formData.append("image", image);
-
-      // Ambil token dari localStorage (Pastikan kamu simpan token pas login)
-      const token = localStorage.getItem("token");
-
-      const response = await fetch("https://backend-project-production-6368.up.railway.app/api/products", {
-        method: "POST",
-        headers: {
-          // Tambahkan Authorization jika backend kamu butuh login
-          "Authorization": `Bearer ${token}`
-        },
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert("Produk berhasil ditambahkan!");
-        // --- RESET SEMUA STATE ---
-        setName("");
-        setPrice("");
-        setDescription("");
-        setImage(null);
-        setPreview(null); // Ini penting supaya preview hilang setelah sukses
-      } else {
-        const errorData = await response.json();
-        alert(`Gagal: ${errorData.message}`);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Gagal menghubungi server");
-    } finally {
-      setLoading(false);
-    }
+    // Bikin preview buat semua foto gallery yang dipilih
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setGalleryPreviews(previews);
   };
+
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("description", description);
+    
+    // Foto Utama
+    if (image) formData.append("image", image);
+
+    // Gallery
+    galleryFiles.forEach((file) => {
+      formData.append("gallery", file);
+    });
+
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:5000/api/products", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`
+        // PENTING: Jangan set 'Content-Type' manual kalau pakai FormData
+      },
+      body: formData,
+    });
+
+    // Cek apakah responnya JSON atau HTML error
+    const contentType = response.headers.get("content-type");
+    
+    if (contentType && contentType.includes("application/json")) {
+      const result = await response.json();
+      if (response.ok) {
+        alert("Produk Berhasil Disimpan!");
+        // Reset state di sini...
+      } else {
+        alert("Gagal: " + result.message);
+      }
+    } else {
+      // Jika server ngirim HTML (Error 500)
+      const errorHTML = await response.text();
+      console.error("Server Error HTML:", errorHTML);
+      alert("Backend Error (500). Cek LOGS di Dashboard Railway kamu!");
+    }
+
+  } catch (error) {
+    console.error("Error Koneksi:", error);
+    alert("Gagal menghubungi server. Pastikan internet aman.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <AdminLayout>
       <div className="admin-page">
         <form onSubmit={handleSubmit} className="admin-form">
-          <h1>Tambah Produk</h1>
+          <h1>Tambah Produk Baru</h1>
 
-          <input
-            placeholder="Nama produk"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+          <div className="input-group">
+            <label>Nama Produk</label>
+            <input
+              placeholder="Contoh: Aksaratiga Display Typeface"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-          <input
-            type="number"
-            placeholder="Harga"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
+          <div className="input-group">
+            <label>Harga (IDR)</label>
+            <input
+              type="number"
+              placeholder="Contoh: 150000"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </div>
 
-          <textarea
-            placeholder="Deskripsi"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <div className="input-group">
+            <label>Deskripsi</label>
+            <textarea
+              placeholder="Jelaskan detail produk..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
 
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file) {
-                setImage(file);
-                setPreview(URL.createObjectURL(file)); // Membuat link sementara buat dilihat di browser
-              }
-            }}
-            required
-          />
+          {/* UPLOAD FOTO UTAMA */}
+          <div className="upload-section">
+            <label>Foto Utama (Thumbnail)</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  setImage(file);
+                  setPreview(URL.createObjectURL(file));
+                }
+              }}
+              required
+            />
+            {preview && (
+              <div className="preview-box">
+                <img src={preview} alt="main-preview" />
+              </div>
+            )}
+          </div>
 
-          {/* Preview ini HANYA untuk melihat sebelum diupload */}
-          {preview && (
-            <div className="preview-container">
-               <p>Preview Gambar:</p>
-               <img src={preview} alt="preview" style={{ width: "220px", borderRadius: "8px" }} />
+          {/* UPLOAD GALLERY */}
+          <div className="upload-section">
+            <label>Gallery Foto Tambahan (Bisa pilih banyak)</label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple // INI KUNCINYA
+              onChange={handleGalleryChange}
+            />
+            <div className="gallery-preview-grid">
+              {galleryPreviews.map((url, index) => (
+                <div key={index} className="gallery-preview-item">
+                  <img src={url} alt={`gallery-${index}`} />
+                </div>
+              ))}
             </div>
-          )}
+          </div>
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Sedang Menyimpan..." : "Tambah Produk"}
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "Sedang Menyimpan..." : "Publish Produk"}
           </button>
         </form>
       </div>

@@ -3,41 +3,48 @@ import "./ProductCard.css";
 
 export default function ProductCard({ product, setNotif }) {
   // ================= NOTIFICATION =================
-  // Menampilkan notifikasi sementara (like / bookmark)
   const showTempNotif = (message) => {
     setNotif({ message, show: true });
     setTimeout(() => setNotif({ message: "", show: false }), 1200);
   };
 
-  // ================= IMAGE SOURCE =================
-  // Image sekarang diambil dari backend
-  // product.image = "uploads/xxxxx.jpg"
-  // Ganti bagian backendBaseUrl menjadi link Railway kamu langsung
-  const backendBaseUrl =
-    "https://backend-project-production-6368.up.railway.app";
+  // ================= IMAGE LOGIC (FIXED) =================
+  const getFullUrl = (path) => {
+    // 1. Cek jika tidak ada path
+    if (!path) return "https://placehold.co/400x300?text=No+Image";
 
-  const imageUrl = product.image?.startsWith("http")
-    ? product.image.replace("http://localhost:5000", backendBaseUrl) // Jaga-jaga kalau ada link localhost di database
-    : product.image
-      ? `${backendBaseUrl}/${product.image.startsWith("/") ? product.image.slice(1) : product.image}`
-      : "/img/default.png";
+    // 2. Jika ada link railway lama di database, arahkan ke localhost
+    if (path.includes("railway.app")) {
+      const parts = path.split("/uploads/");
+      return `http://localhost:5000/uploads/${parts[1]}`;
+    }
+
+    // 3. Jika path sudah berupa URL lengkap (tapi bukan railway)
+    if (path.startsWith("http")) return path;
+
+    // 4. Jika path adalah path mentah (uploads/xxx.jpg)
+    const cleanPath = path.startsWith("/") ? path.substring(1) : path;
+    return `http://localhost:5000/${cleanPath}`;
+  };
+
+  // Pakai product.image atau product.mainImage (sesuaikan dengan data backend-mu)
+  const finalImageUrl = getFullUrl(product.image || product.mainImage);
+
   return (
     <div className="product-card">
       <div className="image-wrapper">
-        {/* ================= PRODUCT DETAIL LINK ================= */}
-        {/* MongoDB pakai _id, bukan id */}
         <Link to={`/product/${product._id}`} className="product-link">
-          <img src={imageUrl} alt={product.name} />
+          {/* GUNAKAN finalImageUrl DI SINI */}
+          <img src={finalImageUrl} alt={product.name} />
         </Link>
 
         {/* ================= HOVER UI ================= */}
         <div className="hover-icons">
           <span className="hover-name">{product.name}</span>
-
           <button
             className="icon-btn"
             onClick={(e) => {
-              e.stopPropagation();
+              e.preventDefault(); // Pakai preventDefault agar Link tidak terpicu
               showTempNotif("Disukai");
             }}
           >
@@ -47,7 +54,7 @@ export default function ProductCard({ product, setNotif }) {
           <button
             className="icon-btn"
             onClick={(e) => {
-              e.stopPropagation();
+              e.preventDefault();
               showTempNotif("Tersimpan");
             }}
           >

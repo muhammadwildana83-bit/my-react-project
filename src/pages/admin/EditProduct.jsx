@@ -18,11 +18,16 @@ export default function EditProduct() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false); // State biar tombol gak diklik 2x
 
+// 1. Definisikan URL dari .env di paling atas (di dalam komponen)
+  const API_URL = import.meta.env.VITE_API_URL; // http://localhost:5000/api
+  const SERVER_URL = API_URL.replace('/api', ''); // http://localhost:5000
+
   /* =========================
       FETCH DATA PRODUCT: Ambil data lama
   ========================= */
   useEffect(() => {
-    fetch(`https://backend-project-production-6368.up.railway.app/api/products/${id}`)
+    // Pakai variable API_URL dari .env
+    fetch(`${API_URL}/products/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Gagal mengambil data");
         return res.json();
@@ -33,18 +38,22 @@ export default function EditProduct() {
         setPrice(productData.price ? String(productData.price) : "");
         setDescription(productData.description || "");
 
-        // Set preview awal dengan gambar dari server
+        // Set preview awal dengan logika dinamis
         if (productData.image) {
-          setImagePreview(`https://backend-project-production-6368.up.railway.app/api/products/${productData.image}`);
+          const path = productData.image;
+          // Bersihkan path jika ada sisa-sisa link Railway lama
+          const fileName = path.includes("/uploads/") ? path.split("/uploads/")[1] : path;
+          // Pakai SERVER_URL (tanpa /api) untuk ambil folder uploads
+          setImagePreview(`${SERVER_URL}/uploads/${fileName}`);
         }
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
         alert("Gagal mengambil data produk");
-        navigate("/admin/products"); // Balikin ke list kalau ID salah
+        navigate("/admin/products");
       });
-  }, [id, navigate]);
+  }, [id, navigate, API_URL, SERVER_URL]);
 
   /* =========================
       HANDLE IMAGE CHANGE: Preview Instan
@@ -53,7 +62,6 @@ export default function EditProduct() {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
-      // Bersihkan memory preview lama kalau ada, biar gak berat
       if (imagePreview && imagePreview.startsWith("blob:")) {
         URL.revokeObjectURL(imagePreview);
       }
@@ -66,34 +74,34 @@ export default function EditProduct() {
   ========================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSaving(true); // Mulai loading simpan
+    setSaving(true);
 
     try {
       const formData = new FormData();
       formData.append("name", name);
-      formData.append("price", price);
+      formData.append("price", Number(price));
       formData.append("description", description);
 
-      // LOGIC GAMBAR: 
-      // Kalau ada file baru, upload file-nya.
-      // Kalau nggak ada, backend biasanya gak perlu dikirimin field image 
-      // atau kirim path lamanya aja (tergantung setup backend-mu).
       if (imageFile) {
         formData.append("image", imageFile);
       }
 
-      const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+      // Pakai variable API_URL dari .env
+      const res = await fetch(`${API_URL}/products/${id}`, {
         method: "PUT",
-        body: formData, // Biarkan browser yang set Content-Type secara otomatis
+        body: formData,
       });
 
-      if (!res.ok) throw new Error("Update failed");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Update failed");
+      }
 
       alert("Produk berhasil diperbarui, Bos!");
       navigate("/admin/products");
     } catch (error) {
-      console.error(error);
-      alert("Waduh, gagal update produk!");
+      console.error("Error saat update:", error);
+      alert(`Waduh, gagal update produk: ${error.message}`);
     } finally {
       setSaving(false);
     }

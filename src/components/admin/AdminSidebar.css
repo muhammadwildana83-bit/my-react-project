@@ -55,3 +55,67 @@
 .btn-logout:hover {
   background: #a71d2a;
 }
+
+@media (max-width: 768px) {
+  /* 1. Container jadi vertikal */
+  .admin-container {
+    flex-direction: column;
+  }
+
+  /* 2. Sidebar jadi Header yang ramping */
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 15px;
+    flex-direction: column; /* Logo di atas, Nav di bawah */
+    gap: 15px;
+    align-items: center;
+  }
+
+  .sidebar-logo {
+    margin: 0;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+
+  /* 3. Navigasi: Rapi & Simpel */
+  .sidebar-nav {
+    flex-direction: row; /* Berjajar ke samping */
+    flex-wrap: wrap;    /* Kalau gak muat, dia turun otomatis (gak maksa nempel) */
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .nav-item {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.05); /* Kasih kotak halus */
+    border-radius: 4px;
+  }
+
+  /* Sembunyikan teks menu kalau dirasa masih terlalu penuh (opsional) */
+  /* .nav-item span { display: none; } */
+
+  .logout-btn {
+    width: auto;
+    margin-top: 0;
+    padding: 6px 15px;
+    font-size: 0.75rem;
+  }
+
+  /* 4. Main Content: Area Tabel */
+  .admin-main-content {
+    padding: 20px 10px;
+    width: 100%;
+  }
+
+  /* Tabel biar bisa di-swipe kalau kolomnya banyak */
+  .admin-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+}
