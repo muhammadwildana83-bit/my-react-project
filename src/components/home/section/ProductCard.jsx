@@ -3,7 +3,6 @@ import "./ProductCard.css";
 
 export default function ProductCard({ product, setNotif }) {
   // ================= CONFIG URL =================
-  // Ambil dari .env Vercel, kalau gak ada otomatis pakai URL Railway kamu
   const API_BASE_URL = import.meta.env.VITE_API_URL || "https://backend-project-production-6368.up.railway.app";
 
   // ================= NOTIFICATION =================
@@ -12,31 +11,33 @@ export default function ProductCard({ product, setNotif }) {
     setTimeout(() => setNotif({ message: "", show: false }), 1200);
   };
 
-  // ================= IMAGE LOGIC (FINAL & CLEAN) =================
+  // ================= IMAGE LOGIC =================
   const getFullUrl = (path) => {
     if (!path) return "https://placehold.co/400x300?text=No+Image";
 
-    // 1. Bersihkan path dari karakter aneh dan dobel slash
+    // 1. Bersihkan path dari backslash Windows
     let cleanPath = path.replace(/\\/g, "/");
 
-    // 2. Jika path mengandung URL lama (localhost atau railway lama), kita ambil nama filenya saja
+    // 2. Ambil nama filenya saja jika ada path panjang/lama
     if (cleanPath.includes("/uploads/")) {
-      const parts = cleanPath.split("/uploads/");
-      cleanPath = `uploads/${parts[1]}`;
+      cleanPath = `uploads/${cleanPath.split("/uploads/")[1]}`;
     }
 
-    // 3. Jika path ternyata URL lengkap (selain localhost), langsung return
+    // 3. Jika sudah URL luar (cloudinary/http), langsung return
     if (cleanPath.startsWith("http") && !cleanPath.includes("localhost")) {
       return cleanPath;
     }
 
-    // 4. Gabungkan dengan Base URL yang bener (Railway/Localhost)
+    // 4. Buat Base URL khusus Static Files (Tanpa /api di ujungnya)
+    const STATIC_BASE_URL = API_BASE_URL.replace(/\/api$/, "");
+    
+    // 5. Pastikan tidak ada double slash di awal path
     const finalPath = cleanPath.startsWith("/") ? cleanPath.substring(1) : cleanPath;
     
-    // Pastikan pakai HTTPS agar tidak Mixed Content
-    return `${API_BASE_URL}/${finalPath}`;
+    return `${STATIC_BASE_URL}/${finalPath}`;
   };
 
+  // --- BARIS KRITIS: Mendefinisikan variabel sebelum di-render ---
   const finalImageUrl = getFullUrl(product.image || product.mainImage);
 
   return (
