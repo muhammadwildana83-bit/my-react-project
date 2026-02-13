@@ -16,9 +16,8 @@ import "./ProductDetail.css";
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { cartItems, addToCart } = useCart();
+  const { addToCart } = useCart();
 
-  // ================= STATE =================
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [mainImage, setMainImage] = useState("");
@@ -26,7 +25,6 @@ const ProductDetail = () => {
   const [selectedLicense, setSelectedLicense] = useState("Standard License");
   const [quantity, setQuantity] = useState(1);
 
-  // Alamat Backend (Hardcoded biar aman di deploy maupun lokal)
   const backendUrl = "https://backend-project-production-6368.up.railway.app";
 
   // ================= FETCH DATA =================
@@ -34,51 +32,45 @@ const ProductDetail = () => {
     const getDetail = async () => {
       try {
         setLoading(true);
+
         const res = await API.get(`/products/${id}`);
-        if (res.data.success) {
-          const data = res.data.data;
-          setProduct(data);
+        const productData = res?.data?.data;
 
-          // Set Foto Utama saat pertama kali load
-          const fotoUtama = data.image
-            ? data.image.startsWith("http")
-              ? data.image
-              : `${backendUrl}/${data.image}`
-            : "/placeholder.png";
-
-          setMainImage(fotoUtama);
+        if (!productData) {
+          setProduct(null);
+          return;
         }
+
+        setProduct(productData);
+
+        const fotoUtama =
+          productData.image ||
+          (productData.gallery?.length ? productData.gallery[0] : "");
+
+        setMainImage(fotoUtama);
       } catch (err) {
         console.error("Gagal narik data:", err);
+        setProduct(null);
       } finally {
         setLoading(false);
       }
     };
+
     getDetail();
   }, [id]);
 
-  // ================= LOGIKA GALLERY (BIAR MUNCUL BERJEJER) =================
+  // ================= GALLERY =================
   const galleryList = useMemo(() => {
     if (!product) return [];
-    let list = [];
 
-    // 1. Masukkan foto utama ke gallery
-    const mainUrl = product.image
-      ? product.image.startsWith("http")
-        ? product.image
-        : `${backendUrl}/${product.image}`
-      : "";
-    if (mainUrl) list.push(mainUrl);
+    const list = [];
 
-    // 2. Masukkan array gallery dari backend jika ada
-    if (product.gallery && Array.isArray(product.gallery)) {
-      product.gallery.forEach((img) => {
-        const url = img.startsWith("http") ? img : `${backendUrl}/${img}`;
-        list.push(url);
-      });
+    if (product.image) list.push(product.image);
+
+    if (Array.isArray(product.gallery)) {
+      product.gallery.forEach((img) => list.push(img));
     }
 
-    // Hapus duplikat URL
     return [...new Set(list)];
   }, [product]);
 
@@ -87,36 +79,14 @@ const ProductDetail = () => {
 
   const handleThumbnailClick = useCallback((img) => {
     setMainImage(img);
-    setImgLoaded(false); // Reset loading state biar skeleton main image muncul bentar
+    setImgLoaded(false);
   }, []);
-
-  const handleQuantityChange = (delta) => {
-    setQuantity((prev) => Math.max(1, prev + delta));
-  };
 
   const handleAddToCart = useCallback(() => {
     if (!product) return;
     addToCart(product, quantity);
     navigate("/cart");
   }, [addToCart, product, quantity, navigate]);
-
-  const navigateBack = useCallback(() => navigate(-1), [navigate]);
-
-  // ================= EARLY RETURN =================
-  if (loading)
-    return (
-      <p style={{ padding: 40, textAlign: "center" }}>Loading product...</p>
-    );
-  if (!product)
-    return (
-      <div
-        className="product-detail-not-found"
-        style={{ padding: 40, textAlign: "center" }}
-      >
-        <h1>Produk tidak ditemukan</h1>
-        <button onClick={navigateBack}>Kembali</button>
-      </div>
-    );
 
   // ================= RENDER =================
   return (
@@ -129,43 +99,58 @@ const ProductDetail = () => {
         </div>
 
         <main className="product-detail">
-          <div className="product-left">
-            {/* BUNGKUS KEDUANYA DI SINI */}
-            <div className="main-image-viewport">
-              <MainImage
-                mainImage={mainImage}
-                imgLoaded={imgLoaded}
-                handleImageLoad={handleImageLoad}
-              />
+          {loading && <div className="product-loading">Loading product...</div>}
 
-              {/* Gallery sekarang satu rumah dengan foto gede */}
-              <Gallery
-                gallery={galleryList}
-                mainImage={mainImage}
-                handleThumbnailClick={handleThumbnailClick}
-              />
+          {!loading && !product && (
+            <div className="product-detail-not-found">
+              <h1>Produk tidak ditemukan</h1>
+              <button onClick={() => navigate(-1)}>Kembali</button>
             </div>
-          </div>
+          )}
 
-          <div className="product-right">
-            <ProductInfo product={product} />
-            <LicenseOptions
-              options={[
-                "Standard License",
-                "Webfont License",
-                "Digital License",
-              ]} // Kirim Array-nya di sini!
-              selectedLicense={selectedLicense}
-              setSelectedLicense={setSelectedLicense}
-            />
-            <div className="action-area">
-              <QuantityControls
-                quantity={quantity}
-                onChange={(d) => setQuantity((q) => Math.max(1, q + d))}
-              />
-              <AddToCartButton onClick={() => addToCart(product, quantity)} />
-            </div>
-          </div>
+          {!loading && product && (
+            <>
+              <div className="product-left">
+                <div className="main-image-viewport">
+                  <MainImage
+                    mainImage={mainImage}
+                    imgLoaded={imgLoaded}
+                    handleImageLoad={handleImageLoad}
+                  />
+
+                  <Gallery
+                    gallery={galleryList}
+                    mainImage={mainImage}
+                    handleThumbnailClick={handleThumbnailClick}
+                  />
+                </div>
+              </div>
+
+              <div className="product-right">
+                <ProductInfo product={product} />
+
+                <LicenseOptions
+                  options={[
+                    "Standard License",
+                    "Webfont License",
+                    "Digital License",
+                  ]}
+                  selectedLicense={selectedLicense}
+                  setSelectedLicense={setSelectedLicense}
+                />
+
+                <div className="action-area">
+                  <QuantityControls
+                    quantity={quantity}
+                    onChange={(d) =>
+                      setQuantity((q) => Math.max(1, q + d))
+                    }
+                  />
+                  <AddToCartButton onClick={handleAddToCart} />
+                </div>
+              </div>
+            </>
+          )}
         </main>
       </div>
 

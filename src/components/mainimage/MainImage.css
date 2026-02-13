@@ -1,3 +1,18 @@
+.main-img-container {
+  width: 100%;
+  aspect-ratio: 16 / 11;   /* 🔥 INI KUNCI UTAMA */
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f3f3f3;
+}
+
+.main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;    /* atau cover kalau mau */
+  display: block;
+}
+
 .product-gallery-section {
   width: 100%;
   margin-top: 10px;
