@@ -21,7 +21,7 @@ return ( <main className="about-page">
   <section className="about-content">
     <div className="about-container about-grid">
       <div className="about-image reveal delay-2">
-        <img src="/img/file.jpg" alt="Tentang Kami" />
+        <img src="/img/background.jpg" alt="Tentang Kami" />
       </div>
       <div className="about-text">
         <h3 className="reveal delay-3">About Us</h3>
@@ -74,7 +74,7 @@ return ( <main className="about-page">
         </div>
         <div className="about-team-member reveal delay-3">
           <div className="team-card-inner">
-            <img src="/img/wa.jpg" alt="Foto Profil" className="profil-img" />
+            <img src="/img/img.wa.SVG.jpg" alt="WhatsApp Profile" className="profil-img" />
             <h4>Wildan Harsa Sangkara</h4>
             <p>Web Designer</p>
           </div>

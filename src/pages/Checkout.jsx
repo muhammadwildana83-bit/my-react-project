@@ -35,43 +35,47 @@ export default function Checkout() {
   /* =========================
      SUBMIT ORDER (FINAL)
   ========================= */
-  const handleSubmit = async () => {
-    // 1. Validasi awal
-    if (isDisabled || isLoading) return;
+ const handleSubmit = async () => {
+  if (isDisabled || isLoading) return;
 
-    setIsLoading(true); // Mulai loading
-    try {
-      const orderPayload = {
-        customer: {
-          name: form.name,
-          email: form.email,
-          whatsapp: form.whatsapp,
-          paymentMethod: form.payment,
-        },
-        items: cartItems.map((item) => ({
-          productId: item._id,
-          quantity: item.qty,
-        })),
-        totalPrice,
-      };
+  setIsLoading(true);
 
-      const res = await API.post("/orders", orderPayload);
+  try {
+    const items = cartItems.map((item) => ({
+      product: item._id,        // ⬅️ HARUS "product"
+      quantity: item.qty,
+      price: item.price,        // ⬅️ WAJIB
+    }));
 
-      // 2. Jika sukses, bersihkan cart dan pindah halaman
-      if (res.data.success) {
-        clearCart();
-        navigate(`/order-success/${res.data.data._id}`);
-      }
-    } catch (error) {
-      console.error("Gagal membuat order:", error);
-      alert(
-        error.response?.data?.message ||
-          "Gagal membuat order, coba lagi nanti ❌",
-      );
-    } finally {
-      setIsLoading(false); // Matikan loading apa pun hasilnya
+    const totalPrice = items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+
+    const orderPayload = {
+      items,
+      totalPrice,               // ⬅️ WAJIB
+    };
+
+    console.log("ORDER PAYLOAD:", orderPayload);
+
+    const res = await API.post("/orders", orderPayload);
+
+    if (res.data.success) {
+      clearCart();
+      navigate(`/order-success/${res.data.data._id}`);
     }
-  };
+  } catch (error) {
+    console.error("Gagal membuat order:", error);
+    alert(
+      error.response?.data?.message ||
+        "Gagal membuat order, coba lagi nanti ❌"
+    );
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   /* =========================
      CART KOSONG
