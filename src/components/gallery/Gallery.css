@@ -29,22 +29,24 @@
   flex: 0 0 calc((100% - 16px) / 3); 
   
   aspect-ratio: 16 / 10; /* Bentuk persegi panjang landscape */
-  border-radius: 4px;
+  border-radius: 12px;
   cursor: pointer;
   overflow: hidden;
   
   /* Gunakan border transparan secara default supaya saat 'active' 
      kotaknya tidak membesar/bergeser (Pixel-Perfect) */
   border: 2px solid transparent; 
-  background-color: #fff;
+  background: linear-gradient(180deg, #fff, #f6f7fb);
+  box-shadow: 0 10px 26px rgba(34,41,54,0.06);
   box-sizing: border-box;
-  transition: all 0.2s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 /* State saat Thumbnail diklik */
 .gallery-item.active {
-  border-color: #000; /* Warna border saat aktif */
-  background-color: #fff;
+  border-color: var(--accent-gold); /* Warna border saat aktif */
+  transform: translateY(-6px);
+  box-shadow: 0 22px 48px rgba(34,41,54,0.12);
 }
 
 .gallery-img-thumb {

@@ -41,7 +41,7 @@ export default function ProductCard({ product, setNotif }) {
   const finalImageUrl = getFullUrl(product.image || product.mainImage);
 
   return (
-    <div className="product-card">
+    <div className="product-card clay">
       <div className="image-wrapper">
         <Link to={`/product/${product._id}`} className="product-link">
           <img 

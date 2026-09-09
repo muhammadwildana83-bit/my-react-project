@@ -7,39 +7,125 @@
 }
 
 .header-nav a {
-  /* HAPUS margin-left: 90px; */
   text-decoration: none;
-  color: #ffffff;
+  color: rgba(255,255,255,0.95);
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.24s ease;
   font-size: 15px; /* Sedikit dikecilkan dari 20px biar lebih proporsional di 100% */
   white-space: nowrap; /* Biar teks menu nggak kepotong jadi 2 baris */
+  padding: 8px 12px;
+  border-radius: 12px;
 }
 
 .header-nav a:hover {
-  color: #dad8d89f;
-  transform: translateY(-2px); /* Sedikit efek angkat biar lebih interaktif */
+  color: #0f1724;
+  background: rgba(31,41,55,0.06);
+  transform: translateY(-2px);
 }
+
+.header-nav a {
+  color: #ffffff;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.14s ease;
+  background: transparent;
+}
+
+.header-nav a:active { transform: translateY(0); }
+
+/* NAV WRAPPER & HAMBURGER */
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.nav-toggle .hamburger,
+.hamburger {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  position: relative;
+}
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease;
+}
+.hamburger::before { top: -6px; }
+.hamburger::after { top: 6px; }
+.nav-toggle.is-open .hamburger { background: transparent; }
+.nav-toggle.is-open .hamburger::before { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.is-open .hamburger::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile nav overlay */
+.mobile-nav-overlay {
+  display: none;
+}
+.mobile-nav-overlay.active {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,20,25,0.28); /* dim but not heavy */
+  z-index: 1200;
+}
+.mobile-nav {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: min(360px, 92%);
+  /* translucent clay + subtle blur */
+  background: rgba(250,246,241,0.56);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: -12px 0 24px rgba(31,41,55,0.06), inset 0 6px 10px rgba(255,255,255,0.34);
+  border-left: 1px solid rgba(255,255,255,0.18);
+}
+.mobile-close {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: #0f1724;
+  font-size: 28px;
+  cursor: pointer;
+}
+
 
 /* Responsif: Kalau layar makin kecil (atau di-zoom makin besar) */
 @media (max-width: 1024px) {
-
-/* MEDIA QUERY RESPONSIVE NAV */
-@media (max-width: 768px) {
-  .nav {
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .nav a {
-    font-size: 13px;
-    padding: 4px 8px;
-  }
+  .header-nav { gap: 20px; }
+  .header-nav a { font-size: 16px; }
 }
-  .header-nav {
-    gap: 20px;
-  }
-  .header-nav a {
-    font-size: 16px;
-  }
+
+@media (max-width: 768px) {
+  /* hide inline nav, show hamburger */
+  .header-nav { display: none; }
+  .nav-toggle { display: inline-flex; width:40px; height:40px; }
+  .nav-wrapper { gap: 6px; }
 }

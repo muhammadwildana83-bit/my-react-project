@@ -24,79 +24,82 @@ export default function Cart() {
      RENDER HALAMAN KERANJANG
   ========================= */
   return (
-    <div className="cart-container">
-      <h2 className="cart-title">Keranjang Belanja</h2>
-
-      {/* Jika keranjang kosong tampilkan pesan dan tombol cari produk */}
-      {cartItems.length === 0 ? (
-        <div className="cart-empty">
-          <p>Keranjang masih kosong.</p>
-          <button onClick={() => navigate("/")} className="btn-primary">
-            Cari Produk
-          </button>
+    <div className="cart-page">
+      <div className="cart-container">
+        <div className="cart-header">
+          <h2 className="cart-title">Your Cart</h2>
+          <span className="cart-count">{cartItems.length} Items</span>
         </div>
-      ) : (
-        <>
-          {/* Daftar item di keranjang */}
-          <ul className="cart-list">
-            {cartItems.map((item) => (
-              <li key={item._id} className="cart-item">
-                <div className="cart-item-left">
-                  <img
-                    src={
-                      item.image
-                        ? item.image.startsWith("http")
-                          ? item.image
-                          : `https://backend-project-production-6368.up.railway.app/${item.image}`
-                        : "/img/default.png"
-                    }
-                    alt={item.name}
-                    className="cart-img"
-                  />
 
-                  <div>
-                    <h4 className="item-name">{item.name}</h4>
-                    <p className="item-qty">Qty: {item.qty}</p>
-                    <p className="item-price">
-                      Rp {item.price.toLocaleString()}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Tombol hapus item dari keranjang */}
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="btn-delete"
-                >
-                  Hapus
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          {/* Total harga keranjang */}
-          <div className="cart-total">Total: Rp {total.toLocaleString()}</div>
-
-          {/* Tombol aksi keranjang */}
-          <div className="cart-actions">
-            <button onClick={clearCart} className="btn-secondary">
-              Kosongkan
-            </button>
-
-            <button
-              onClick={() => navigate("/checkout")}
-              className="btn-primary"
-            >
-              Checkout
+        {cartItems.length === 0 ? (
+          <div className="cart-empty">
+            <div className="empty-icon">🛒</div>
+            <p>Your cart is currently empty.</p>
+            <button onClick={() => navigate("/")} className="btn-primary">
+              Explore Products
             </button>
           </div>
+        ) : (
+          <>
+            <ul className="cart-list">
+              {cartItems.map((item) => (
+                <li key={item._id} className="cart-item">
+                  <div className="cart-item-left">
+                    <img
+                      src={
+                        item.image
+                          ? `http://localhost:5000/uploads/${item.image.split("/").pop()}`
+                          : "/img/default.png"
+                      }
+                      alt={item.name}
+                      className="cart-img"
+                    />
+                    <div className="item-details">
+                      <h4 className="item-name">{item.name}</h4>
+                      <p className="item-price">
+                        Rp {item.price.toLocaleString()}
+                      </p>
+                      <p className="item-qty">Quantity: {item.qty}</p>
+                    </div>
+                  </div>
 
-          {/* Tombol lanjut belanja */}
-          <button onClick={() => navigate("/")} className="btn-outline">
-            Lanjut Belanja
-          </button>
-        </>
-      )}
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="btn-delete"
+                  >
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <div className="cart-footer">
+              <div className="total-section">
+                <span>Total Amount:</span>
+                <span className="total-amount">
+                  Rp {total.toLocaleString()}
+                </span>
+              </div>
+
+              <div className="cart-actions">
+                <button onClick={clearCart} className="btn-clear">
+                  Clear All
+                </button>
+                <button
+                  onClick={() => navigate("/checkout")}
+                  className="btn-checkout"
+                >
+                  Checkout Now
+                </button>
+              </div>
+
+              <button onClick={() => navigate("/")} className="btn-continue">
+                <i className="fa-solid fa-arrow-left"></i> Continue Shopping
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

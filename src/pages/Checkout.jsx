@@ -35,47 +35,42 @@ export default function Checkout() {
   /* =========================
      SUBMIT ORDER (FINAL)
   ========================= */
- const handleSubmit = async () => {
-  if (isDisabled || isLoading) return;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (isDisabled || isLoading) return;
 
-  setIsLoading(true);
+    setIsLoading(true);
 
-  try {
-    const items = cartItems.map((item) => ({
-      product: item._id,        // ⬅️ HARUS "product"
-      quantity: item.qty,
-      price: item.price,        // ⬅️ WAJIB
-    }));
+    try {
+      const items = cartItems.map((item) => ({
+        productId: item._id, // Ganti "product" menjadi "productId" agar matching dengan backend
+        quantity: item.qty,
+        price: item.price,
+      }));
+      const totalPrice = items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0,
+      );
 
-    const totalPrice = items.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
+      const orderPayload = {
+        items,
+        totalPrice, // ⬅️ WAJIB
+      };
 
-    const orderPayload = {
-      items,
-      totalPrice,               // ⬅️ WAJIB
-    };
+      console.log("ORDER PAYLOAD:", orderPayload);
 
-    console.log("ORDER PAYLOAD:", orderPayload);
+      const res = await API.post("/orders", orderPayload);
 
-    const res = await API.post("/orders", orderPayload);
-
-    if (res.data.success) {
-      clearCart();
-      navigate(`/order-success/${res.data.data._id}`);
-    }
-  } catch (error) {
-    console.error("Gagal membuat order:", error);
-    alert(
-      error.response?.data?.message ||
-        "Gagal membuat order, coba lagi nanti ❌"
-    );
-  } finally {
-    setIsLoading(false);
-  }
-};
-
+      if (res.data.success) {
+        clearCart();
+        navigate(`/order-success/${res.data.data._id}`);
+      }
+    // Di Frontend (Checkout.jsx)
+} catch (error) {
+  console.log("PESAN DARI SERVER:", error.response?.data);
+  alert("Error Server: " + (error.response?.data?.message || "Cek Console"));
+}
+  };
 
   /* =========================
      CART KOSONG
@@ -83,7 +78,12 @@ export default function Checkout() {
   if (cartItems.length === 0) {
     return (
       <div className="checkout-wrapper">
-        <h2>Your cart is empty 🛒</h2>
+        <div className="checkout-empty">
+          <span className="checkout-kicker">ORDER STATUS / 00</span>
+          <h2>Your cart is empty</h2>
+          <p>Add a product before continuing to checkout.</p>
+          <button className="btn-primary" onClick={() => navigate("/")}>Browse Products</button>
+        </div>
       </div>
     );
   }
@@ -95,7 +95,7 @@ export default function Checkout() {
     <div className="checkout-wrapper">
       <h1 className="checkout-title">Checkout</h1>
 
-      <div className="checkout-grid">
+      <form className="checkout-grid" onSubmit={handleSubmit}>
         {/* LEFT */}
         <div className="checkout-left">
           <h2 className="section-title">Billing Details</h2>
@@ -131,7 +131,8 @@ export default function Checkout() {
 
           <div className="payment-grid">
             {["gopay", "ovo", "dana", "transfer"].map((method) => (
-              <div
+              <button
+                type="button"
                 key={method}
                 className={`payment-card ${
                   form.payment === method ? "active" : ""
@@ -139,11 +140,12 @@ export default function Checkout() {
                 onClick={() => setForm({ ...form, payment: method })}
               >
                 {method.toUpperCase()}
-              </div>
+              </button>
             ))}
           </div>
 
           <button
+            type="submit"
             className={`btn-primary full-btn ${isLoading ? "loading" : ""}`}
             disabled={isDisabled || isLoading}
             onClick={handleSubmit}
@@ -172,7 +174,7 @@ export default function Checkout() {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

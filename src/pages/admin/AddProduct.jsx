@@ -99,84 +99,82 @@ export default function AddProduct() {
   };
 
   return (
-    <AdminLayout>
-      <div className="admin-page">
-        <form onSubmit={handleSubmit} className="admin-form">
-          <h1>Tambah Produk Baru</h1>
+   <div className="admin-page">
+    <form onSubmit={handleSubmit} className="admin-form">
+      <h1>Tambah Produk Baru</h1>
 
-          <div className="input-group">
-            <label>Nama Produk</label>
-            <input
-              placeholder="Contoh: Aksaratiga Display Typeface"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Harga (IDR)</label>
-            <input
-              type="number"
-              placeholder="Contoh: 150000"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Deskripsi</label>
-            <textarea
-              placeholder="Jelaskan detail produk..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-
-          <div className="upload-section">
-            <label>Foto Utama (Thumbnail)</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  setImage(file);
-                  setPreview(URL.createObjectURL(file));
-                }
-              }}
-              required
-            />
-            {preview && (
-              <div className="preview-box">
-                <img src={preview} alt="main-preview" />
-              </div>
-            )}
-          </div>
-
-          <div className="upload-section">
-            <label>Gallery Foto Tambahan</label>
-            <input
-              type="file"
-              accept="image/*"
-              multiple 
-              onChange={handleGalleryChange}
-            />
-            <div className="gallery-preview-grid">
-              {galleryPreviews.map((url, index) => (
-                <div key={index} className="gallery-preview-item">
-                  <img src={url} alt={`gallery-${index}`} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Sabar, Lagi Upload..." : "Publish Produk"}
-          </button>
-        </form>
+      <div className="input-group">
+        <label>Nama Produk</label>
+        <input
+          placeholder="Contoh: Aksaratiga Display Typeface"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
       </div>
-    </AdminLayout>
+
+      <div className="input-group">
+        <label>Harga (IDR)</label>
+        <input
+          type="number"
+          placeholder="Contoh: 150000"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="input-group">
+        <label>Deskripsi</label>
+        <textarea
+          placeholder="Jelaskan detail produk..."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
+
+      <div className="upload-section">
+        <label>Foto Utama (Thumbnail)</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+              setImage(file);
+              setPreview(URL.createObjectURL(file));
+            }
+          }}
+          required
+        />
+        {preview && (
+          <div className="preview-box">
+            <img src={preview} alt="main-preview" />
+          </div>
+        )}
+      </div>
+
+      <div className="upload-section">
+        <label>Gallery Foto Tambahan</label>
+        <input
+          type="file"
+          accept="image/*"
+          multiple 
+          onChange={handleGalleryChange}
+        />
+        <div className="gallery-preview-grid">
+          {galleryPreviews.map((url, index) => (
+            <div key={index} className="gallery-preview-item">
+              <img src={url} alt={`gallery-${index}`} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button type="submit" className="submit-btn" disabled={loading}>
+        {loading ? "Sabar, Lagi Upload..." : "Publish Produk"}
+      </button>
+    </form>
+  </div>
   );
 }

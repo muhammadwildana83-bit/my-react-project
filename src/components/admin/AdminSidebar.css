@@ -1,121 +1,215 @@
+:root {
+  --sb-bg: #0f172a;               /* Dark Slate Deep */
+  --sb-card: rgba(30, 41, 59, 0.7);
+  --sb-accent: #6366f1;           /* Indigo Accent */
+  --sb-accent-glow: rgba(99, 102, 241, 0.25);
+  --sb-text: #94a3b8;
+  --sb-text-active: #ffffff;
+  --sb-border: rgba(255, 255, 255, 0.08);
+}
+
 .admin-sidebar {
-  width: 220px;
-  height: 100vh;      /* Tinggi full layar */
-  background: #111;
-  color: #fff;
-  padding: 24px;
-  position: fixed;    /* Mengunci sidebar di kiri, tidak ikut scroll */
+  width: 260px;
+  height: 100vh;
+  background: var(--sb-bg);
+  backdrop-filter: blur(16px);
+  padding: 24px 18px;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Menendang Logout ke bawah */
+  justify-content: space-between;
   box-sizing: border-box;
-  z-index: 100;       /* Biar selalu di depan */
+  z-index: 100;
+  border-right: 1px solid var(--sb-border);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* BRAND & PROFILE */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--sb-border);
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--sb-accent), #4f46e5);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 14px var(--sb-accent-glow);
 }
 
 .sidebar-title {
-  margin-bottom: 32px;
-  font-size: 20px;
-  font-weight: bold;
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--sb-text-active);
+  letter-spacing: -0.2px;
 }
 
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+}
+
+/* NAVIGATION */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 6px;
+}
+
+.nav-group-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: 1px;
+  margin: 12px 0 4px 8px;
 }
 
 .nav-link {
-  color: #fff;
+  color: var(--sb-text);
   text-decoration: none;
-  font-size: 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: all 0.22s ease-in-out;
+  border: 1px solid transparent;
+}
+
+.nav-link i {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+/* HOVER & ACTIVE STATES */
+.nav-link:hover {
+  color: var(--sb-text-active);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateX(3px);
+}
+
+.nav-link:hover i {
+  transform: scale(1.15);
+}
+
+/* STATE SANGAT AKTIF (PAGE YANG SEDANG DIBUKA) */
+.nav-link.active {
+  color: var(--sb-text-active);
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.03));
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: inset 3px 0 0 var(--sb-accent);
+  font-weight: 600;
+}
+
+.nav-link.active i {
+  color: var(--sb-accent);
+}
+
+.shop-link {
+  margin-top: 6px;
+  color: #64748b;
+}
+
+.shop-link:hover {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
 }
 
 .sidebar-divider {
   height: 1px;
-  background: #333;
-  margin: 10px 0;
+  background: var(--sb-border);
+  margin: 8px 0;
+}
+
+/* LOGOUT BUTTON */
+.sidebar-bottom {
+  padding-top: 16px;
+  border-top: 1px solid var(--sb-border);
 }
 
 .btn-logout {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 11px 16px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.88rem;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
 }
 
 .btn-logout:hover {
-  background: #a71d2a;
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+  transform: translateY(-2px);
 }
 
+/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
-  /* 1. Container jadi vertikal */
-  .admin-container {
-    flex-direction: column;
-  }
-
-  /* 2. Sidebar jadi Header yang ramping */
   .admin-sidebar {
     width: 100%;
     height: auto;
     position: relative;
-    padding: 15px;
-    flex-direction: column; /* Logo di atas, Nav di bawah */
-    gap: 15px;
-    align-items: center;
+    padding: 14px;
   }
 
-  .sidebar-logo {
-    margin: 0;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
+  .sidebar-brand {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
   }
 
-  /* 3. Navigasi: Rapi & Simpel */
+  .nav-group-title {
+    display: none;
+  }
+
   .sidebar-nav {
-    flex-direction: row; /* Berjajar ke samping */
-    flex-wrap: wrap;    /* Kalau gak muat, dia turun otomatis (gak maksa nempel) */
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
-  .nav-item {
-    padding: 6px 12px;
+  .nav-link {
     font-size: 0.8rem;
-    background: rgba(255, 255, 255, 0.05); /* Kasih kotak halus */
-    border-radius: 4px;
+    padding: 8px 12px;
   }
 
-  /* Sembunyikan teks menu kalau dirasa masih terlalu penuh (opsional) */
-  /* .nav-item span { display: none; } */
-
-  .logout-btn {
-    width: auto;
-    margin-top: 0;
-    padding: 6px 15px;
-    font-size: 0.75rem;
-  }
-
-  /* 4. Main Content: Area Tabel */
-  .admin-main-content {
-    padding: 20px 10px;
-    width: 100%;
-  }
-
-  /* Tabel biar bisa di-swipe kalau kolomnya banyak */
-  .admin-table-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  .sidebar-divider {
+    display: none;
   }
 }

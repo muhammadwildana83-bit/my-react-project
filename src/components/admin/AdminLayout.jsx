@@ -5,7 +5,7 @@ export default function AdminLayout({ children }) {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main className="admin-main-content">
+      <main className="admin-main-content glass">
         {children}
       </main>
     </div>

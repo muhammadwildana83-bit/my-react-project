@@ -1,6 +1,6 @@
 import "./MainImage.css";
 
-export const getFullUrl = (path) => {
+const getFullUrl = (path) => {
   if (!path) {
     return "https://placehold.co/500x500?text=No+Image";
   }
@@ -8,14 +8,13 @@ export const getFullUrl = (path) => {
   // kalau sudah full URL
   if (path.startsWith("http")) return path;
 
-  const BASE_URL = "https://backend-project-production-6368.up.railway.app";
+  const BASE_URL = "http://localhost:5000";
 
   return `${BASE_URL}/${path}`;
 };
 
-
 const MainImage = ({ mainImage }) => (
-  <div className="main-img-container">
+  <div className="main-img-container clay">
     <img
       src={getFullUrl(mainImage)}
       className="main-img"

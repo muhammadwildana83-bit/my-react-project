@@ -4,33 +4,24 @@
 ====================================================== */
 import { useState } from "react";
 import "./Hero.css";
-import Register from "../../../pages/Register"; // path sesuai foldermu
+import RegisterUser from "../../../pages/RegisterUser"; // Komponen form register user biasa
 
 /* =========================
-   FUNGSI UTAMA HERO
-   Menampilkan hero, login, dan register
+   HERO UTAMA
 ========================= */
 export default function Hero() {
-  /* =========================
-     STATE UNTUK MODAL DAN FORM LOGIN/REGISTER
-  ========================= */
   const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState("login"); // login | register
 
-  // Tampilkan modal login
   const handleStartNow = () => {
     setMode("login");
     setShowForm(true);
   };
 
-  // Tutup modal
   const handleClose = () => setShowForm(false);
 
-  /* =========================
-     HANDLE LOGIN USER
-  ========================= */
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -53,74 +44,99 @@ export default function Hero() {
         alert(data.message || "Login gagal");
       }
     } catch (err) {
-      console.error(err); 
+      console.error(err);
       alert("Server error");
     }
   };
 
-  /* =========================
-     RENDER HERO DAN MODAL LOGIN/REGISTER
-  ========================= */
   return (
     <section className="hero">
-      <div className="hero-content">
-        <h2>Welcome to the Galery Aksara Tiga</h2>
-        <p>Find Your Font</p>
-        <button className="btn" onClick={handleStartNow}>
-          Start Now
-        </button>
+      <div className="hero-inner">
+        <div className="hero-copy">
+          <span className="hero-chip">Aksara Tiga Studio</span>
+          <h2>Modern type, refined design, and bold product storytelling.</h2>
+          <p>
+            Discover curated fonts and premium layouts made for creative brands, digital shops, and strong visual impact.
+          </p>
+          <div className="hero-actions">
+            <button className="btn-start" onClick={handleStartNow}>
+              Start Now <i className="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div className="hero-panel">
+          <div className="hero-highlight">
+            <div className="hero-highlight-top">
+              <span>Featured</span>
+              <span>#01</span>
+            </div>
+            <h3>Minimal Font Suite</h3>
+            <p>Perfect for branding, editorial layouts, and bold product headlines.</p>
+            <div className="hero-highlight-meta">
+              <div>
+                <strong>30+</strong>
+                <span>Styles</span>
+              </div>
+              <div>
+                <strong>24</strong>
+                <span>Templates</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Modal Login/Register */}
       {showForm && (
-        <div className="modal-overlay">
-          <div className="modal">
-            {mode === "login" ? (
-              <>
-                <h2>Login</h2>
-                <form onSubmit={handleLogin}>
-                  <div className="form-group">
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <button type="submit" className="btn-primary">Login</button>
-                </form>
-                <p>
-                  Belum punya akun?{" "}
-                  <span onClick={() => setMode("register")} className="switch">
-                    Register
-                  </span>
-                </p>
-              </>
-            ) : (
-              <>
-                <h2>Register</h2>
-                <Register setMode={setMode} setShowForm={setShowForm} />
-                <p>
-                  Sudah punya akun?{" "}
-                  <span onClick={() => setMode("login")} className="switch">
-                    Login
-                  </span>
-                </p>
-              </>
-            )}
-            <button className="btn-secondary close-btn" onClick={handleClose}>
-              Cancel
+        <div className="modal-overlay" onClick={handleClose}>
+          <div className="modal glass" onClick={(e) => e.stopPropagation()}>
+            <button className="close-x" onClick={handleClose}>
+              &times;
             </button>
+
+            <div className="modal-header">
+              <h2>{mode === "login" ? "Welcome Back" : "Join Us"}</h2>
+              <p>{mode === "login" ? "Login to your account" : "Create your account today"}</p>
+            </div>
+
+            {mode === "login" ? (
+              <form onSubmit={handleLogin} className="auth-form">
+                <div className="form-group">
+                  <label>Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn-auth">
+                  Login
+                </button>
+              </form>
+            ) : (
+              <RegisterUser setMode={setMode} setShowForm={setShowForm} />
+            )}
+
+            <div className="modal-footer">
+              <p>
+                {mode === "login" ? "Don’t have an account?" : "Already have an account?"}{" "}
+                <span onClick={() => setMode(mode === "login" ? "register" : "login")} className="switch">
+                  {mode === "login" ? "Register Now" : "Login here"}
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       )}

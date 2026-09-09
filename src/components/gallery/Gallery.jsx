@@ -4,10 +4,10 @@ import "./Gallery.css";
 // Base backend TANPA /api (khusus file & image)
 const BACKEND_URL =
   import.meta.env.VITE_BACKEND_URL ||
-  "https://backend-project-production-6368.up.railway.app";
+  "http://localhost:5000"; // Ganti dengan URL backend Anda
 
 const buildImageUrl = (path) => {
-  if (!path) return "https://placehold.co/100x100?text=No+Image";
+  if (!path) return "http://placehold.co/100x100?text=No+Image";
 
   // normalisasi slash (Windows fix)
   let cleanPath = path.replace(/\\/g, "/");
@@ -41,7 +41,7 @@ const Gallery = ({ gallery = [], mainImage, handleThumbnailClick }) => {
           return (
             <div
               key={index}
-              className={`gallery-item ${isActive ? "active" : ""}`}
+              className={`gallery-item ${isActive ? "active" : ""} clay`}
               onClick={() => handleThumbnailClick(fullUrl)}
             >
               <img
@@ -50,7 +50,7 @@ const Gallery = ({ gallery = [], mainImage, handleThumbnailClick }) => {
                 className="gallery-img-thumb"
                 onError={(e) => {
                   e.currentTarget.src =
-                    "https://placehold.co/100x100?text=Error";
+                    "http://placehold.co/100x100?text=Error";
                 }}
               />
             </div>

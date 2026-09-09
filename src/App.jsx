@@ -11,6 +11,7 @@ import {
 // PAGES
 import Home from "./pages/Home";
 import About from "./components/home/about/About";
+import Blog from "./components/home/blog/Blog";
 import ProductDetail from "./pages/productdetail/ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -21,7 +22,10 @@ import Register from "./pages/admin/Register";
 // ADMIN PAGES
 import AddProduct from "./pages/admin/AddProduct";
 import AdminProducts from "./pages/admin/AdminProducts";
+import AdminBlogs from "./pages/admin/AdminBlogs";
 import EditProduct from "./pages/admin/EditProduct";
+import AddBlog from "./pages/admin/AddBlog";
+import BlogDetail from "./pages/blogdetail";
 
 // COMPONENT ADMIN
 import AdminLayout from "./components/admin/AdminLayout";
@@ -52,6 +56,8 @@ function AppWrapper() {
         element={<Home searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
       />
       <Route path="/about" element={<About />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogDetail />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
@@ -85,6 +91,32 @@ function AppWrapper() {
           isAuthenticated ? (
             <AdminLayout>
               <AddProduct />
+            </AdminLayout>
+          ) : (
+            <Navigate to="/admin/login" replace />
+          )
+        }
+      />
+
+      <Route
+        path="/admin/blogs"
+        element={
+          isAuthenticated ? (
+            <AdminLayout>
+              <AdminBlogs />
+            </AdminLayout>
+          ) : (
+            <Navigate to="/admin/login" replace />
+          )
+        }
+      />
+
+      <Route
+        path="/admin/add-blog"
+        element={
+          isAuthenticated ? (
+            <AdminLayout>
+              <AddBlog />
             </AdminLayout>
           ) : (
             <Navigate to="/admin/login" replace />

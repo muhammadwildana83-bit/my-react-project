@@ -25,8 +25,6 @@ const ProductDetail = () => {
   const [selectedLicense, setSelectedLicense] = useState("Standard License");
   const [quantity, setQuantity] = useState(1);
 
-  const backendUrl = "https://backend-project-production-6368.up.railway.app";
-
   // ================= FETCH DATA =================
   useEffect(() => {
     const getDetail = async () => {

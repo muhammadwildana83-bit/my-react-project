@@ -23,7 +23,7 @@ export default function AdminProducts() {
     // Ambil data produk dari backend saat komponen mount
     const fetchData = async () => {
       try {
-        const response = await fetch("https://backend-project-production-6368.up.railway.app/api/products");
+        const response = await fetch("http://localhost:5000/api/products");
         const resData = await response.json();
 
         if (resData.success && Array.isArray(resData.data)) {
@@ -46,7 +46,7 @@ export default function AdminProducts() {
       HELPER: Handle URL Gambar agar tidak broken
   ====================================================== */
   const getImageUrl = (image) => {
-    const BASE_URL = "https://backend-project-production-6368.up.railway.app";
+    const BASE_URL = "http://localhost:5000";
     
     if (!image) return "/img/default.png";
 
@@ -73,7 +73,7 @@ export default function AdminProducts() {
     setDeleting(true);
     try {
       const response = await fetch(
-        `https://backend-project-production-6368.up.railway.app/api/products/${confirmId}`,
+        `http://localhost:5000/api/products/${confirmId}`,
         {
           method: "DELETE",
           // headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` } // Jika butuh token
@@ -102,78 +102,132 @@ export default function AdminProducts() {
     );
 
   // Render utama halaman admin produk
-  return (
+return (
     <div className="admin-products">
-      {/* Header Dashboard Produk */}
+      {/* Top Header */}
       <div className="admin-header">
-        <h1>Dashboard Produk</h1>
+        <div className="header-title">
+          <h1>Daftar Produk</h1>
+          <p className="header-subtitle">
+            Kelola katalog barang toko kamu di sini ({products.length} Total Produk)
+          </p>
+        </div>
+        <button 
+          className="add-product-btn"
+          onClick={() => navigate("/admin/add-product")}
+        >
+          <i className="fa-solid fa-plus"></i>
+          <span>Tambah Produk</span>
+        </button>
       </div>
 
-      {/* Tabel Produk */}
-      <div className="product-table">
-        <div className="table-head">
-          <span>Produk</span>
-          <span>Nama</span>
-          <span>Harga</span>
-          <span>Aksi</span>
+      {/* Action Bar / Quick Search */}
+      <div className="table-toolbar">
+        <div className="search-box">
+          <i className="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Cari nama produk..." />
         </div>
+      </div>
 
+      {/* Main Data Table */}
+      <div className="table-card">
         {products.length > 0 ? (
-          products.map((product) => (
-            <div className="table-row" key={product._id}>
-              <img
-                src={getImageUrl(product.image)}
-                alt={product.name}
-                className="product-img-thumb"
-              />
-              <span className="product-name">{product.name}</span>
-              <span className="product-price">
-                {product.price
-                  ? `Rp ${product.price.toLocaleString()}`
-                  : "Rp 0"}
-              </span>
+          <div className="table-responsive">
+            <table className="custom-table">
+              <thead>
+                <tr>
+                  <th>FOTO</th>
+                  <th>NAMA PRODUK</th>
+                  <th>HARGA</th>
+                  <th>AKSI</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map((product) => (
+                  <tr key={product._id}>
+                    {/* Thumbnail */}
+                    <td>
+                      <div className="img-wrapper">
+                        <img
+                          src={getImageUrl(product.image)}
+                          alt={product.name}
+                          className="product-img-thumb"
+                        />
+                      </div>
+                    </td>
 
-              <div className="actions">
-                <button
-                  className="edit-btn"
-                  onClick={() => navigate(`/admin/edit-product/${product._id}`)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="delete-btn"
-                  onClick={() => setConfirmId(product._id)}
-                >
-                  Hapus
-                </button>
-              </div>
-            </div>
-          ))
+                    {/* Nama */}
+                    <td>
+                      <span className="product-name">{product.name}</span>
+                    </td>
+
+                    {/* Harga */}
+                    <td>
+                      <span className="product-price">
+                        {product.price
+                          ? `Rp ${product.price.toLocaleString("id-ID")}`
+                          : "Rp 0"}
+                      </span>
+                    </td>
+
+                    {/* Actions */}
+                    <td>
+                      <div className="actions">
+                        <button
+                          className="action-btn edit-btn"
+                          title="Edit Produk"
+                          onClick={() => navigate(`/admin/edit-product/${product._id}`)}
+                        >
+                          <i className="fa-solid fa-pen-to-square"></i>
+                          <span>Edit</span>
+                        </button>
+                        <button
+                          className="action-btn delete-btn"
+                          title="Hapus Produk"
+                          onClick={() => setConfirmId(product._id)}
+                        >
+                          <i className="fa-solid fa-trash-can"></i>
+                          <span>Hapus</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
-          <div className="no-data">Belum ada produk nih. Ayo tambah dulu!</div>
+          <div className="empty-state">
+            <i className="fa-solid fa-box-open empty-icon"></i>
+            <h3>Belum ada produk</h3>
+            <p>Mulai tambahkan produk pertama kamu sekarang.</p>
+          </div>
         )}
       </div>
 
-      {/* Modal Konfirmasi Hapus Produk */}
+      {/* Modal Konfirmasi Hapus */}
       {confirmId && (
         <div className="confirm-overlay">
           <div className="confirm-box">
-            <h3>Hapus Produk?</h3>
-            <p>Data bakal hilang selamanya loh, yakin?</p>
+            <div className="warning-icon">
+              <i className="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Hapus Produk Ini?</h3>
+            <p>Tindakan ini tidak dapat dibatalkan. Data akan terhapus dari basis data.</p>
             <div className="confirm-actions">
               <button
-                className="cancel-btn"
+                className="btn-secondary"
                 onClick={() => setConfirmId(null)}
                 disabled={deleting}
               >
                 Batal
               </button>
               <button
-                className="danger-btn"
+                className="btn-danger"
                 onClick={handleDelete}
                 disabled={deleting}
               >
-                {deleting ? "Lagi Hapus..." : "Ya, Hapus!"}
+                {deleting ? "Menghapus..." : "Ya, Hapus"}
               </button>
             </div>
           </div>

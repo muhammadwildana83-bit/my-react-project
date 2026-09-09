@@ -1,85 +1,105 @@
 :root {
-  /* --- Brand Colors --- */
-  --primary-color: #fbff00;    /* Kuning branding kamu */
-  --dark-color: #111111;       /* Hitam premium */
-  --text-main: #222222;        /* Untuk teks badan */
-  --text-muted: #666666;       /* Untuk teks kurang penting */
-  --white: #ffffff;
-
-  /* --- Radius (Sudah oke, kita buat lebih konsisten) --- */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 25px; /* Pill shape untuk tombol atau search bar */
-
-  /* --- Spacing --- */
+  --primary-color: #d7ff3f;
+  --dark-color: #17151f;
+  --text-main: #17151f;
+  --text-muted: #554d63;
+  --white: #fffdf8;
+  --hot-pink: #ff3cac;
+  --electric-cyan: #5cecff;
+  --paper: #fffdf8;
+  --ink: #17151f;
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 32px;
-  --space-xl: 60px; /* Buat jarak antar section */
-  
-  /* --- Shadows --- */
-  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-bold: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --space-xl: 60px;
+  --shadow-soft: 5px 5px 0 var(--hot-pink);
+  --shadow-bold: 9px 9px 0 var(--electric-cyan);
+  --glass-bg: var(--paper);
+  --glass-border: var(--ink);
+  --clay-bg: var(--paper);
+  --clay-light: var(--paper);
+  --clay-dark: var(--electric-cyan);
+  --clay-shadow: var(--shadow-soft);
+  --clay-inset: none;
+  --accent-gold: var(--primary-color);
+  --btn-bg: var(--ink);
+  --btn-text: var(--paper);
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif; /* Pakai Inter biar lebih modern */
-  background-color: var(--white);
+  font-family: "Trebuchet MS", "Arial Black", sans-serif;
+  background-color: var(--paper);
+  background-image: linear-gradient(rgba(23, 21, 31, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(23, 21, 31, .07) 1px, transparent 1px);
+  background-size: 24px 24px;
   color: var(--text-main);
-  overflow-x: hidden; /* Penyelamat dari scrollbar horizontal */
+  overflow-x: hidden;
 }
 
-/* =====================================================
-   RESPONSIVE GLOBAL FIX (UNTUK LAYAR HP)
-===================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+button, input, textarea, select { font-family: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid var(--hot-pink); outline-offset: 3px; }
+::selection { background: var(--hot-pink); color: var(--paper); }
+
+.glass {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+.clay {
+  background: var(--paper);
+  border-radius: var(--radius-md);
+  box-shadow: var(--clay-shadow);
+  border: 2px solid var(--ink);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 0;
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  transition: transform .15s steps(2, end), box-shadow .15s steps(2, end);
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--electric-cyan); }
+
+.header-overlay, .search-popup, .cart-container, .checkout-left, .summary-card,
+.admin-main-content, .admin-form, .login-card, .product-card, .blog-card,
+.detail-info, .order-success-card, .register-card {
+  border: 2px solid var(--ink) !important;
+  border-radius: 2px !important;
+  box-shadow: 7px 7px 0 var(--hot-pink) !important;
+}
+
+.header-overlay { background: var(--ink) !important; backdrop-filter: none !important; }
+.header-overlay--scrolled { background: var(--ink) !important; border-color: var(--primary-color) !important; }
+.header-nav a:hover, .nav-link:hover { background: var(--primary-color) !important; color: var(--ink) !important; }
+input, textarea, select { border: 2px solid var(--ink) !important; border-radius: 0 !important; background: var(--paper) !important; color: var(--ink) !important; }
+input::placeholder, textarea::placeholder { color: #766d82; opacity: 1; }
+.admin-sidebar { background: var(--ink) !important; border-right: 3px solid var(--primary-color) !important; backdrop-filter: none !important; font-family: "Trebuchet MS", sans-serif !important; }
+.brand-icon { border-radius: 0 !important; background: var(--hot-pink) !important; box-shadow: 4px 4px 0 var(--electric-cyan) !important; }
+.nav-link.active { background: var(--hot-pink) !important; border-color: var(--primary-color) !important; box-shadow: 4px 4px 0 var(--primary-color) !important; }
+.nav-link.active i { color: var(--ink) !important; }
+.footer { border-top: 3px solid var(--ink) !important; background: var(--primary-color) !important; }
+.footer-logo img { border-radius: 0 !important; box-shadow: 5px 5px 0 var(--hot-pink) !important; }
+
 @media (max-width: 768px) {
-  
-  /* 1. Paksa Layout yang tadinya sampingan (Flex Row) jadi tumpuk (Column) */
-  /* Ini bakal benerin Sidebar yang makan setengah layar */
-  .admin-layout, .main-container, .content-wrapper {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  /* 2. Sesuaiin Sidebar biar gak kaku */
-  .sidebar {
-    width: 100% !important; /* Lebar penuh di atas */
-    height: auto !important;
-    min-height: fit-content !important;
-    padding: 10px 0 !important;
-  }
-
-  /* 3. Bikin menu sidebar jadi baris horizontal agar hemat tempat */
-  .sidebar ul {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  /* 4. Beresin Form agar tidak meluber keluar layar */
-  form, .admin-form {
-    width: 95% !important;
-    margin: 10px auto !important;
-    padding: 15px !important;
-  }
-
-  /* 5. Paksa gambar produk di form/list biar gak kegedean */
-  img {
-    max-width: 100% !important;
-    height: auto !important;
-  }
-
-  /* 6. Solusi Tabel: Biar bisa di-geser (scroll) ke samping */
-  .product-table, .table-container {
-    display: block !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* 7. Ukuran Font: Biar gak kegedean di HP */
+  .admin-layout, .main-container, .content-wrapper { display: flex !important; flex-direction: column !important; }
+  .sidebar { width: 100% !important; height: auto !important; min-height: fit-content !important; padding: 10px 0 !important; }
+  .sidebar ul { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; }
+  form, .admin-form { width: 95% !important; margin: 10px auto !important; padding: 15px !important; }
+  img { max-width: 100%; height: auto; }
+  .product-table, .table-container { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
   h1 { font-size: 1.5rem !important; }
   h2 { font-size: 1.2rem !important; }
 }

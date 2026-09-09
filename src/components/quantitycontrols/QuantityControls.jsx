@@ -2,7 +2,7 @@ import "./QuantityControls.css";
 
 const QuantityControls = ({ quantity, onChange }) => {
   return (
-    <div className="quantity-control">
+    <div className="quantity-control clay">
       <button className="qty-btn" onClick={() => onChange(-1)}>-</button>
 
       <input

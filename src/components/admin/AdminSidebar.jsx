@@ -1,46 +1,74 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "./AdminSidebar.css";
 
 export default function AdminSidebar() {
-  const navigate = useNavigate();
-
   const handleLogout = () => {
     if (window.confirm("Yakin ingin keluar, Bos?")) {
-      // 1. Hapus token dari browser
       localStorage.removeItem("adminToken");
-      
-      // 2. Tendang balik ke halaman login & refresh state
       window.location.href = "/admin/login";
     }
   };
 
   return (
     <aside className="admin-sidebar">
-      {/* Bagian Atas: Logo dan Navigasi */}
+      {/* Header Sidebar */}
       <div className="sidebar-top">
-        <h2 className="sidebar-title">Admin Panel</h2>
+        <div className="sidebar-brand">
+          <div className="brand-icon">
+            <i className="fa-solid fa-shield-halved"></i>
+          </div>
+          <div className="brand-info">
+            <h2 className="sidebar-title">Admin Panel</h2>
+            <span className="admin-status">
+              <span className="status-dot"></span> Online
+            </span>
+          </div>
+        </div>
 
+        {/* Navigasi Utama */}
         <nav className="sidebar-nav">
-          <Link to="/admin/products" className="nav-link">
-            <i className="fa-solid fa-box"></i> Products
-          </Link>
+          <span className="nav-group-title">CATALOG</span>
+          
+          <NavLink to="/admin/products" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+            <i className="fa-solid fa-box-archive"></i>
+            <span>Products</span>
+          </NavLink>
 
-          <Link to="/admin/add-product" className="nav-link">
-            <i className="fa-solid fa-plus"></i> Add Product
-          </Link>
-          
+          <NavLink to="/admin/add-product" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+            <i className="fa-solid fa-plus-circle"></i>
+            <span>Add Product</span>
+          </NavLink>
+
           <div className="sidebar-divider"></div>
-          
+
+          <span className="nav-group-title">CONTENT</span>
+
+          <NavLink to="/admin/blogs" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+            <i className="fa-solid fa-newspaper"></i>
+            <span>Blogs</span>
+          </NavLink>
+
+          <NavLink to="/admin/add-blog" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+            <i className="fa-solid fa-pen-to-square"></i>
+            <span>Add Blog</span>
+          </NavLink>
+
+          <div className="sidebar-divider"></div>
+
           <Link to="/" className="nav-link shop-link">
-            <i className="fa-solid fa-arrow-left"></i> Back to Store
+            <i className="fa-solid fa-arrow-left-long"></i>
+            <span>Back to Store</span>
           </Link>
         </nav>
       </div>
 
-      {/* Bagian Bawah: Tombol Logout */}
-      <button onClick={handleLogout} className="btn-logout">
-        Logout
-      </button>
+      {/* Footer Sidebar / Logout */}
+      <div className="sidebar-bottom">
+        <button onClick={handleLogout} className="btn-logout">
+          <i className="fa-solid fa-right-from-bracket"></i>
+          <span>Logout</span>
+        </button>
+      </div>
     </aside>
   );
 }

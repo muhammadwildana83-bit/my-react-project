@@ -1,15 +1,19 @@
 .admin-container {
   display: flex;
   min-height: 100vh;
-  background-color: #f4f7f6; /* Warna abu-abu soft biar mata nggak capek */
+  background: linear-gradient(180deg, #f7f9fc, #eef4fb); /* soft background */
 }
 
 .admin-main-content {
   flex: 1;
-  margin-left: 220px; /* Sesuai lebar sidebar */
-  padding: 40px;
-  width: calc(100% - 220px);
-  transition: all 0.3s ease;
+  margin-left: 240px; /* Sesuai lebar sidebar */
+  padding: 36px;
+  width: calc(100% - 240px);
+  transition: all 0.28s ease;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(34,41,54,0.04);
 }
 
 /* Biar kalau di layar kecil, layout-nya nggak hancur */
