@@ -328,9 +328,11 @@
   .featured-card {
     grid-template-columns: 1fr;
   }
+
   .featured-content {
     padding: 32px;
   }
+
   .blog-title {
     font-size: 2.5rem;
   }
@@ -340,14 +342,45 @@
   .blog-container {
     padding: 48px 16px;
   }
-  .blog-title {
-    font-size: 2rem;
+
+  .blog-header {
+    text-align: left;
+    margin-bottom: 32px;
   }
+
+  .blog-title {
+    font-size: 2.1rem;
+    line-height: 1.1;
+  }
+
+  .blog-description {
+    font-size: 1rem;
+    max-width: none;
+    text-align: left;
+  }
+
+  .blog-categories {
+    justify-content: flex-start;
+    margin-bottom: 28px;
+  }
+
   .blog-grid {
     grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .featured-content {
+    padding: 24px 18px 22px;
+  }
+
+  .card-content {
+    padding: 20px 18px 18px;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
   }
 }
-
 .blog-container {
   max-width: none;
   padding: 110px max(24px, 6vw) 90px;

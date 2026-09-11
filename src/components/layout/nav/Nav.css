@@ -117,15 +117,57 @@
 }
 
 
-/* Responsif: Kalau layar makin kecil (atau di-zoom makin besar) */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 4vw, 50px);
+}
+
 @media (max-width: 1024px) {
-  .header-nav { gap: 20px; }
-  .header-nav a { font-size: 16px; }
+  .header-nav { gap: 18px; }
+  .header-nav a { font-size: 14px; }
 }
 
 @media (max-width: 768px) {
-  /* hide inline nav, show hamburger */
-  .header-nav { display: none; }
-  .nav-toggle { display: inline-flex; width:40px; height:40px; }
-  .nav-wrapper { gap: 6px; }
+  .header-nav {
+    display: none;
+  }
+
+  .nav-wrapper {
+    gap: 8px;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: #fff;
+  }
+
+  .mobile-nav {
+    width: min(82vw, 320px);
+    padding: 24px 18px 20px;
+    background: linear-gradient(180deg, rgba(243, 236, 255, 0.96), rgba(219, 234, 255, 0.96));
+    border-left: 2px solid #101322;
+    box-shadow: -10px 0 22px rgba(16, 19, 34, 0.18);
+  }
+
+  .mobile-nav a {
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #101322;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.55);
+    color: #101322;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .mobile-nav a + a {
+    margin-top: 10px;
+  }
 }

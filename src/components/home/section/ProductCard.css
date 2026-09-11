@@ -1,4 +1,45 @@
 .product-card { position: relative; overflow: visible; transition: transform .25s ease; }.product-card:hover { transform: translate(-4px,-5px); }.image-wrapper { position: relative; border-radius: 14px; overflow: hidden; background: #101322; border: 2px solid #101322; box-shadow: 6px 6px 0 #8cf4ff; }.image-wrapper img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; transition: transform .5s ease, filter .5s ease; }.product-card:hover .image-wrapper img { transform: scale(1.06); filter: saturate(1.2) contrast(1.05); }
 .hover-icons { position: absolute; bottom: 0; left: 50%; transform: translate(-50%,25px); display: flex; gap: 10px; opacity: 0; transition: .28s ease; padding: 20px 10px 11px; width: 100%; justify-content: center; background: linear-gradient(to top,rgba(16,19,34,.92),rgba(16,19,34,.32),transparent); border-radius: 0 0 10px 10px; z-index: 5; }.product-card:hover .hover-icons { opacity: 1; transform: translate(-50%,0); }
 .icon-btn { width: 47px; height: 47px; border-radius: 10px; border: 2px solid #101322; background: #d9ff38; display: flex; justify-content: center; align-items: center; box-shadow: 3px 3px 0 #ff50c2; cursor: pointer; transition: .2s ease; }.icon-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 #8cf4ff; }.icon-btn i { font-size: 1.3rem; color: #101322; }.hover-name { color: #fff; font-size: 1.1rem; font-weight: 600; margin-right: auto; padding-left: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }.product-card:hover .hover-name { transform: translateY(3px); }
-@media (max-width: 768px) { .product-card { padding: 0; width: 100%; }.image-wrapper { border-radius: 14px; }.hover-icons { position: static; transform: translate(0,0); padding: 14px 12px; background: #101322; border-radius: 0 0 12px 12px; justify-content: space-between; flex-wrap: wrap; }.icon-btn { width: 40px; height: 40px; }.hover-name { font-size: .95rem; padding-left: 0; white-space: normal; } }
+@media (max-width: 768px) {
+  .product-card {
+    width: 100%;
+    padding: 0;
+  }
+
+  .image-wrapper {
+    border-radius: 14px;
+  }
+
+  .hover-icons {
+    position: static;
+    transform: translate(0, 0);
+    padding: 14px 12px;
+    background: #101322;
+    border-radius: 0 0 12px 12px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    opacity: 1;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hover-name {
+    font-size: .95rem;
+    padding-left: 0;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 520px) {
+  .product-card {
+    min-width: 0;
+  }
+
+  .hover-icons {
+    gap: 8px;
+  }
+}
