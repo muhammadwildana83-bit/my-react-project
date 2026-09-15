@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./blogdetail.css";
+import "./Blogdetail.css";
 
 const formatDate = (dateString) => {
   if (!dateString) return "";

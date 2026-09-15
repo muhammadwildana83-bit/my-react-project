@@ -25,7 +25,7 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminBlogs from "./pages/admin/AdminBlogs";
 import EditProduct from "./pages/admin/EditProduct";
 import AddBlog from "./pages/admin/AddBlog";
-import BlogDetail from "./pages/blogdetail";
+import BlogDetail from "./pages/Blogdetail";
 
 // COMPONENT ADMIN
 import AdminLayout from "./components/admin/AdminLayout";
